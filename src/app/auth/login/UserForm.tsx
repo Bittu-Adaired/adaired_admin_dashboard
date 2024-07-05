@@ -40,7 +40,7 @@ const schema = z.object({
 export const UserForm = () => {
   const [show, setShow] = useState(false);
   const defaultValues = {
-    email: "yash@gmail.com",
+    email: "bittu@gmail.com",
     password: "Ad@12345",
     rememberMe: false,
   };

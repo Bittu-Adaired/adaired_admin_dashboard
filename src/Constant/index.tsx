@@ -2040,12 +2040,20 @@ export const StockAvailability = "Stock Availability";
 export const StockQuantity = "Stock Quantity";
 export const MdeEditorText = `Enter your messages...`;
 
+// ********** UI Kit **********
+
+export const Confirm: string = "Confirm";
+export const Deny: string = "Not Sure";
+
 // Services
 export const AddService: string = "Add Service";
 export const ServiceAddButton: string = "Add";
 export const ServiceDiscardButton: string = "Discard";
 export const ServiceParent: string = "Parent";
 export const ServiceParentPlaceholder: string = "Select Parent Service....";
+export const ServiceName: string = "Service name";
+export const ParentServiceName: string = "Parent Service";
+export const Slug: string = "Slug";
 
 // Globals
 export const MetaTitle: string = "Meta Title";

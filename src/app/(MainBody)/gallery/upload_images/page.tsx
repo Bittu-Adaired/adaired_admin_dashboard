@@ -1,4 +1,4 @@
-import GalleryImageUploadContainer from "@/Components/Miscellaneous/Gallery/GalleryImageUpload";
+import GalleryImageUploadContainer from "@/Components/Pages/Gallery/GalleryImageUpload";
 import React from "react";
 
 const UploadImages = () => {

@@ -27,6 +27,7 @@ export const MenuList: MenuItem[] | undefined = [
         active: false,
         children: [
           { path: "/services/add_service", title: "Add Service", type: "link" },
+          { path: "/services/service_list", title: "Service List", type: "link" },
         ],
       },
       {
@@ -35,7 +36,11 @@ export const MenuList: MenuItem[] | undefined = [
         id: 2,
         type: "sub",
         active: false,
-        children: [{ path: "/blog/add_post", title: "Add Blog", type: "link" }],
+        children: [
+          { path: "/blog/add_post", title: "Add Blog", type: "link" },
+          { path: "/blog/blog_list", title: "Blog List", type: "link" }
+        ],
+
       },
     ],
   },

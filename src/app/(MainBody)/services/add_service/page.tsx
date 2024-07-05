@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import AddPage from "@/Components/Miscellaneous/Page/AddPage";
+import AddPage from "@/Components/Pages/Services/AddPage";
 const AddService = () => {
-  return <AddPage cardHeader="Add Service"/>;
+  return <AddPage/>;
 };
 
 export default AddService;

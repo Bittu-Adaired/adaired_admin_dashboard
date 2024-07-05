@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import GalleryDridDescContainer from "@/Components/Miscellaneous/Gallery/GalleryGridDesc";
+import GalleryDridDescContainer from "@/Components/Pages/Gallery/GalleryGridDesc";
 
 const GalleryImages = () => {
   return <GalleryDridDescContainer />;
