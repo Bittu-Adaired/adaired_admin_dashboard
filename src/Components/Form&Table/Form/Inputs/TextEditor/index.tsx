@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import JoditEditor from "jodit-pro-react";
+import dynamic from "next/dynamic";
+
+// Dynamically import JoditEditor with ssr: false
+const JoditEditor = dynamic(() => import("jodit-pro-react"), { ssr: false });
 
 const Editor = ({
   value,
@@ -26,7 +29,7 @@ const Editor = ({
   );
 
   const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+    readonly: false, // all options from https://xdsoft.net/jodit/docs/
     uploader: {
       url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
     },
@@ -37,6 +40,11 @@ const Editor = ({
       height: 580,
     },
   };
+
+  // Conditionally render the editor only on the client side
+  if (typeof window === 'undefined') {
+    return null;
+  }
 
   return (
     <JoditEditor
