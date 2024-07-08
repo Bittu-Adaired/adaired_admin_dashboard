@@ -1,0 +1,10 @@
+// Loop to generate z-index classes from 1 to 100
+@for $i from 0 through 100 {
+  .z-#{$i} {
+    z-index: $i;
+  }
+}
+
+.z-auto {
+  z-index: auto;
+}

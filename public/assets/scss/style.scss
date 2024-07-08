@@ -372,11 +372,56 @@ body.dark-only.box-layout {
 /* ---------------------
 	*** Globals *** 
 -----------------------*/
-@import "global/display";
-@import "global/flexbox";
-@import "global/border";
-@import "global/width";
-@import "global/spacebetween";
+// Accessibility
+// @import "global/accessibility/";
+
+// Backgrounds
+// @import "global/backgrounds/";
+
+// Borders
+@import "global/borders/border";
+
+// Effects
+// @import "global/effects/";
+
+// Filters
+// @import "global/filters/";
+
+// Flexbox & Grid
+@import "global/flexbox_and_grid/flexbox";
+@import "global/flexbox_and_grid/spacebetween";
+@import "global/flexbox_and_grid/gap";
+@import "global/flexbox_and_grid/flexDirection";
+@import "global/flexbox_and_grid/alignItems";
+
+
+// Interactivity
+@import "global/interactivity/pointerEvents";
+
+// Layout
+@import "global/layout/display";
+
+// Sizing
+@import "global/sizing/height";
+@import "global/sizing/width";
+
+// Spacing
+// @import "global/spacing/";
+
+// SVG
+// @import "global/svg/";
+
+// Tables
+// @import "global/tables/";
+
+// Transform
+// @import "global/transform/";
+
+// Transitions & Animation
+// @import "global/transitions_and_animation/";
+
+// Typography
+// @import "global/typography/";
 
 //npm react-accessible-treeview
 @import "npm/react-accessible-treeview.scss";

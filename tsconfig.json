@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/Components/Form&Table/Form/Templates/Intro"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/Components/Form&Table/Form/Templates/TwoColumnFeatureSection"],
   "exclude": ["node_modules"]
 }

@@ -27,11 +27,11 @@ const ComponentSelectButton = ({
 
   return (
     <>
-      <Button color="secondary-2x" outline onClick={fullScreenToggle}>
+      <Button color="secondary-2x" outline onClick={fullScreenToggle} className="h-32 w-full">
         {"Select Next Component"}
       </Button>
       <Modal fullscreen isOpen={fullScreen} toggle={fullScreenToggle}>
-        <ModalHeader toggle={fullScreenToggle}>{FullscreenModal}</ModalHeader>
+        <ModalHeader toggle={fullScreenToggle}>Select Section</ModalHeader>
         <ModalBody>
           <ImagesWithRadio onSelect={onSelect} />
         </ModalBody>

@@ -7,6 +7,8 @@ import { Gallery, Item } from "react-photoswipe-gallery";
 import { RootState } from "@/Redux/Store";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { useEffect } from "react";
+import { ImageType } from "@/Redux/Reducers/ImageFetchSlice";
+
 export const DescriptionMyGallery = () => {
   const dispatch = useAppDispatch();
   const { images, isLoading, deleteLoading, error } = useAppSelector(
@@ -16,7 +18,6 @@ export const DescriptionMyGallery = () => {
   useEffect(() => {
     dispatch(fetchImages());
   }, [dispatch]);
-
 
   const handleDelete = (fileName: string) => {
     dispatch(deleteImage(fileName));
@@ -42,48 +43,45 @@ export const DescriptionMyGallery = () => {
     <Gallery withCaption>
       {images && images.length > 0 ? (
         <>
-          {images.map((item: string) => (
-            <>
-              <figure
-                key={item.toLowerCase()}
-                className="col-xl-3 col-md-4 col-sm-6 m-0 "
-                itemProp="caption description"
+          {images.map((item: ImageType) => (
+            <figure
+              key={item.asset_id}
+              className="col-xl-3 col-md-4 col-sm-6 m-0"
+              itemProp="caption description"
+            >
+              <Item
+                original={item.secure_url}
+                width="1500"
+                height="850"
+                caption={item.filename}
               >
-                <Item
-                  original={`${process.env.NEXT_PUBLIC_IMAGE_PATH}/${item}`}
-                  width="1500"
-                  height="850"
-                  caption={item}
-                >
-                  {({ ref, open }) => (
-                    <Link href="" passHref>
-                      <Image
-                        className="border-bottom-0 p-2 rounded-0 rounded-top-1"
-                        ref={
-                          ref as unknown as React.MutableRefObject<HTMLImageElement>
-                        }
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}${item}`}
-                        alt="thumbnail"
-                        onClick={open}
-                        width={300}
-                        height={200}
-                      />
-                      <div className="caption common-space border-top-0 p-2 pt-0">
-                        <h4>{item}</h4>
-                        <Button
-                          className="btn-pill btn-air-danger btn btn-danger"
-                          // onClick={() => onSubmit(item)
-                          onClick={() => handleDelete(item)}
-                          type="button"
-                        >
-                          <i className="fa fa-trash-o"></i>
-                        </Button>
-                      </div>
-                    </Link>
-                  )}
-                </Item>
-              </figure>
-            </>
+                {({ ref, open }) => (
+                  <Link href="" passHref>
+                    <Image
+                      className="border-bottom-0 p-2 rounded-0 rounded-top-1"
+                      ref={
+                        ref as unknown as React.MutableRefObject<HTMLImageElement>
+                      }
+                      src={item.secure_url}
+                      alt={item.filename}
+                      onClick={open}
+                      width={300}
+                      height={200}
+                    />
+                    <div className="caption common-space border-top-0 p-2 pt-0">
+                      <h4>{item.filename}</h4>
+                      <Button
+                        className="btn-pill btn-air-danger btn btn-danger"
+                        onClick={() => handleDelete(item.filename)}
+                        type="button"
+                      >
+                        <i className="fa fa-trash-o"></i>
+                      </Button>
+                    </div>
+                  </Link>
+                )}
+              </Item>
+            </figure>
           ))}
         </>
       ) : (
@@ -91,7 +89,7 @@ export const DescriptionMyGallery = () => {
           <Row>
             <Col sm="12">
               <div className="error-heading">
-                <h2 className={`font-danger`}>No Images Found</h2>
+                <h2 className="font-danger">No Images Found</h2>
               </div>
             </Col>
             <Col sm="12">

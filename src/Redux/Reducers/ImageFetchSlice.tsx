@@ -1,8 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export interface ImageType {
+  asset_id: string;
+  public_id: string;
+  folder: string;
+  filename: string;
+  secure_url: string;
+  url: string;
+}
+
 interface ImageState {
-  images: string[];
+  images: ImageType[];
   isLoading: boolean;
   deleteLoading: boolean; // Separate loading state for deletion
   error: string | null;
@@ -17,13 +26,12 @@ const initialState: ImageState = {
 
 export const fetchImages = createAsyncThunk("images/fetchImages", async () => {
   const response = await axios.get(
-    "http://localhost:5173/api/v2/multer/files",
+    `${process.env.NEXT_PUBLIC_BASE_URL}/multer/getUploadedMedia`,
     {
       withCredentials: true,
     }
   );
-    return response.data.files as string[];
-//   return response.data;
+  return response.data.data;
 });
 
 export const deleteImage = createAsyncThunk(
@@ -60,7 +68,9 @@ const imageFetchSlice = createSlice({
       })
       .addCase(deleteImage.fulfilled, (state, action) => {
         state.deleteLoading = false; // Reset delete loading state
-        state.images = state.images.filter((image) => image !== action.payload);
+        state.images = state.images.filter(
+          (image) => image.filename !== action.payload
+        );
         state.error = null;
       })
       .addCase(deleteImage.rejected, (state, action) => {
@@ -71,4 +81,3 @@ const imageFetchSlice = createSlice({
 });
 
 export default imageFetchSlice.reducer;
-

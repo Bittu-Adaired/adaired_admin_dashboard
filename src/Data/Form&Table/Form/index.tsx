@@ -5,11 +5,11 @@ export const ImageWithRadioDataList = [
   {
     id: "img-radio-1",
     src: "Inner_service_intro_section",
-    label: "Service Intro Section",
+    label: "Two Column Feature Section",
     alt: "tree",
     disabled: false,
     defaultChecked: false,
-    componentName: "Intro",
+    componentName: "TwoColumnFeatureSection",
   },
   {
     id: "img-radio-2",
@@ -19,6 +19,15 @@ export const ImageWithRadioDataList = [
     disabled: false,
     defaultChecked: false,
     componentName: "FAQ",
+  },
+  {
+    id: "img-radio-3",
+    src: "ImagewithDetailedFeatureDescription",
+    label: "Image with Detailed Feature Description",
+    alt: "faq",
+    disabled: false,
+    defaultChecked: false,
+    componentName: "ImagewithDetailedFeatureDescription",
   },
 ];
 

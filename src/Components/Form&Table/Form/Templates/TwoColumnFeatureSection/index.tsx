@@ -1,9 +1,9 @@
-import { BodyDataItem } from "@/Components/Miscellaneous/Page/AddPage/PageBody/PageTabContent";
+import { BodyDataItem } from "@/Types/PageBodyDataType";
 import React from "react";
 import { Input } from "reactstrap";
 import Editor from "../../Inputs/TextEditor";
 
-interface IntroComponentProps {
+interface TwoColumnFeatureSection {
   component: string;
   index: number;
   handleInputChange: (
@@ -15,7 +15,7 @@ interface IntroComponentProps {
   bodyData: BodyDataItem[];
 }
 
-const IntroComponent: React.FC<IntroComponentProps> = ({
+const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSection> = ({
   component,
   index,
   handleInputChange,
@@ -27,10 +27,6 @@ const IntroComponent: React.FC<IntroComponentProps> = ({
 
   const onBlurEditor = (content: string) => {
     handleInputChange(component, index, "introDescription", content);
-  };
-
-  const Textarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    handleInputChange(component, index, "introDescription", e.target.value);
   };
 
   return (
@@ -45,12 +41,7 @@ const IntroComponent: React.FC<IntroComponentProps> = ({
         />
       </div>
       <div>
-        {/* <textarea
-          value={bodyData[index]?.body?.introDescription ?? ""}
-          onChange={Textarea}
-        /> */}
         <Editor
-          // key={index}
           value={bodyData[index]?.body?.introDescription ?? ""}
           onBlurEditor={onBlurEditor}
         />
@@ -59,4 +50,4 @@ const IntroComponent: React.FC<IntroComponentProps> = ({
   );
 };
 
-export default IntroComponent;
+export default TwoColumnFeatureSection;

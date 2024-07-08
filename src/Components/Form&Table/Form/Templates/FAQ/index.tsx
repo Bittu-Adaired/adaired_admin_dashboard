@@ -9,7 +9,7 @@ import {
   CardHeader,
   Collapse,
 } from "reactstrap";
-import { BodyDataItem } from "@/Components/Miscellaneous/Page/AddPage/PageBody/PageTabContent";
+import { BodyDataItem } from "@/Types/PageBodyDataType";
 
 type FAQ = {
   question: string;
@@ -34,8 +34,8 @@ const FAQ: React.FC<FaqComponentProps> = ({
   handleInputChange,
   bodyData,
 }) => {
-  const [isActivity, setIsActivity] = useState(false);
   const [faq, setFaq] = useState<FAQ[]>([{ question: "", answer: "" }]);
+  const [openIndexes, setOpenIndexes] = useState<boolean[]>([false]);
 
   useEffect(() => {
     handleInputChange(component, index, "faq", faq);
@@ -43,12 +43,16 @@ const FAQ: React.FC<FaqComponentProps> = ({
 
   const addFaqField = () => {
     setFaq([...faq, { question: "", answer: "" }]);
+    setOpenIndexes([...openIndexes, false]);
   };
 
   const removeFaqField = (idx: number) => {
     const updatedFAQ = [...faq];
+    const updatedOpenIndexes = [...openIndexes];
     updatedFAQ.splice(idx, 1);
+    updatedOpenIndexes.splice(idx, 1);
     setFaq(updatedFAQ);
+    setOpenIndexes(updatedOpenIndexes);
   };
 
   const handlefaqChange = (
@@ -64,8 +68,10 @@ const FAQ: React.FC<FaqComponentProps> = ({
     setFaq(updatedFAQ);
   };
 
-  const toggleAccordion = () => {
-    setIsActivity(!isActivity);
+  const toggleAccordion = (idx: number) => {
+    const updatedOpenIndexes = [...openIndexes];
+    updatedOpenIndexes[idx] = !updatedOpenIndexes[idx];
+    setOpenIndexes(updatedOpenIndexes);
   };
 
   return (
@@ -85,15 +91,15 @@ const FAQ: React.FC<FaqComponentProps> = ({
                     className="w-100"
                   />
                   <span className="d-flex align-items-center">
-                    {isActivity ? (
+                    {openIndexes[idx] ? (
                       <ChevronDown
                         className="position-relative inset-0 ml-5"
-                        onClick={toggleAccordion}
+                        onClick={() => toggleAccordion(idx)}
                       />
                     ) : (
                       <ChevronUp
                         className="position-relative inset-0 ml-5"
-                        onClick={toggleAccordion}
+                        onClick={() => toggleAccordion(idx)}
                       />
                     )}
                     <Plus onClick={addFaqField} />
@@ -101,7 +107,7 @@ const FAQ: React.FC<FaqComponentProps> = ({
                   </span>
                 </div>
               </CardHeader>
-              <Collapse isOpen={isActivity}>
+              <Collapse isOpen={openIndexes[idx]}>
                 <CardBody>
                   <Input
                     type="textarea"
@@ -122,3 +128,4 @@ const FAQ: React.FC<FaqComponentProps> = ({
 };
 
 export default FAQ;
+

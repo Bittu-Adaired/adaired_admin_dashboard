@@ -21,7 +21,7 @@ export const uploadImages = createAsyncThunk(
       formData.append("files", file);
     });
     const response = await axios.post(
-      "http://localhost:5173/api/v2/multer/upload",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/multer/upload`,
       formData,
       {
         withCredentials: true,

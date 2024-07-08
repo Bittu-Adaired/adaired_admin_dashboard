@@ -26,7 +26,7 @@ import {
 } from "@/Constant";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/Redux/Hooks";
-import CommonButton from "../../../CommonButton";
+import CommonButton from "../../../../CommonButton";
 import { Controller, useForm } from "react-hook-form";
 import ComponentSelectButton from "@/Components/ComponentSelectButton";
 import RenderSelectedInputFields from "@/Components/Form&Table/Form/Templates/RenderSelectedInputFields";
@@ -37,6 +37,7 @@ import { v4 as uuidv4 } from "uuid";
 import ImageSelector from "@/Components/Form&Table/Form/Inputs/ImageSelector";
 import { ServiceFormTypes } from "@/Types/ServiceType";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
+import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -131,9 +132,13 @@ const PageTabContent = ({ id }: { id: string }) => {
   );
 
   const handleComponentSelect = (componentName: string) => {
+    const label = ImageWithRadioDataList.filter(
+      (item) => item.componentName === componentName
+    );
     const newComponent = {
       id: `${componentName}-` + uuidv4().substr(0, 4),
       componentName,
+      label: label[0].label,
       body: {},
     };
     setSelectedComponents((prevSelected) => [...prevSelected, newComponent]);
