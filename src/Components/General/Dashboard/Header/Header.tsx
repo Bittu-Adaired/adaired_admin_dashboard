@@ -1,9 +1,9 @@
-import { DashboardHeaderType } from "@/Types/DashboardType";
+import { DashboardCommonHeaderType } from "@/Types/DashboardType";
 import React, { useState } from "react";
 import { CardHeader } from "reactstrap";
 import { CommonDropdown } from "./Dropdown";
 
-const Header: React.FC<DashboardHeaderType> = ({
+const Header: React.FC<DashboardCommonHeaderType> = ({
   title,
   tagClass,
   dropDownFalse,
