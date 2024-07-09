@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { BodyDataItem } from "@/Types/PageBodyDataType"; // Ensure correct import
 
 // Components
+import ImageWithTitle from "../ImageWithTitle";
 import TwoColumnFeatureSection from "../TwoColumnFeatureSection";
 import FAQComponent from "../FAQ";
 import ImagewithDetailedFeatureDescription from "../ImagewithDetailedFeatureDescription";
@@ -87,7 +88,9 @@ const RenderSelectedInputFields: React.FC<RenderSelectedInputFieldsProps> = ({
       case "FAQ":
         return <FAQComponent {...commonProps} />;
       case "ImagewithDetailedFeatureDescription":
-        return <ImagewithDetailedFeatureDescription {...commonProps}/>;
+        return <ImagewithDetailedFeatureDescription {...commonProps} />;
+      case "ImageWithTitle":
+        return <ImageWithTitle {...commonProps} />;
       default:
         return null;
     }

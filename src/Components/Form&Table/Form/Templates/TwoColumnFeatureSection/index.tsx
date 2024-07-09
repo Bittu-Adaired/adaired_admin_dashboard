@@ -26,7 +26,7 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSection> = ({
   };
 
   const onBlurEditor = (content: string) => {
-    handleInputChange(component, index, "introDescription", content);
+    handleInputChange(component, index, "description", content);
   };
 
   return (
@@ -34,15 +34,15 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSection> = ({
       <div>
         <Input
           type="text"
-          name="introTitle"
-          value={bodyData[index]?.body?.introTitle ?? ""}
+          name="title"
+          value={bodyData[index]?.body?.title ?? ""}
           onChange={handleChange}
-          placeholder={`${component} Title`}
+          placeholder={`Title`}
         />
       </div>
       <div>
         <Editor
-          value={bodyData[index]?.body?.introDescription ?? ""}
+          value={bodyData[index]?.body?.description ?? ""}
           onBlurEditor={onBlurEditor}
         />
       </div>

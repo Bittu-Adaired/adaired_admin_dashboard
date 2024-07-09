@@ -29,7 +29,7 @@ export default function RootLayout({
           href="/assets/images/favicon.png"
           type="image/x-icon"
         />
-        <title>Mofi - Premium Admin Template</title>
+        <title>Adaired - Admin Dashboard</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
