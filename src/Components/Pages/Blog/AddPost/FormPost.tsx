@@ -16,7 +16,6 @@ import {
   RichTextBoxPlaceHolder,
 } from "@/Constant";
 import { PostTypeData } from "@/Data/Miscellaneous/Blog";
-import SimpleMdeReact from "react-simplemde-editor";
 import DropzoneClass from "./DropzoneClass";
 import { useForm, Controller } from "react-hook-form";
 import { BlogDiscardButton, BlogPostButton } from "@/Constant";
