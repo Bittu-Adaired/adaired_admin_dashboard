@@ -123,7 +123,7 @@ export const FormPost: FC<FormPostProps> = ({ onSubmit }) => {
           </FormGroup>
           <div className="email-wrapper">
             <div className="theme-form">
-              <FormGroup>
+              {/* <FormGroup>
                 <Label check>{PostContent}:</Label>
                 <Controller
                   control={control}
@@ -138,7 +138,7 @@ export const FormPost: FC<FormPostProps> = ({ onSubmit }) => {
                     />
                   )}
                 />
-              </FormGroup>
+              </FormGroup> */}
             </div>
           </div>
         </Col>
