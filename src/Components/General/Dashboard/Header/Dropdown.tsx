@@ -6,9 +6,9 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
-import { DashboardDropdown } from "@/Types/DashboardType";
+import { DashBoardCommonDropdown } from "@/Types/DashboardType";
 
-export const CommonDropdown: React.FC<DashboardDropdown> = ({ days }) => {
+export const CommonDropdown: React.FC<DashBoardCommonDropdown> = ({ days }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
