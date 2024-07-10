@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 import PageBody from "./PageBody";
 
-const AddPage = () => {
+const UpdatePage = () => {
   const pathName = PathNameFinder();
   return (
     <Container fluid>
@@ -23,4 +23,4 @@ const AddPage = () => {
   );
 };
 
-export default AddPage;
+export default UpdatePage;

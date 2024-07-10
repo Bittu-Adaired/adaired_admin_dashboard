@@ -2067,6 +2067,7 @@ export const RobotsTextIndexPlaceholder: string =
   "Write in in this format i.e. index, follow";
 export const FocusKeyword: string = "Focus Keyword";
 export const ColorScheme:string = "Color Scheme";
+export const Status:string="Status";
 
 // Rich Text Editor
 export const RichTextBoxPlaceHolder: string =

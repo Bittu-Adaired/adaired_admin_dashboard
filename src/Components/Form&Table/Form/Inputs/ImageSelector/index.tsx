@@ -19,12 +19,12 @@ import { CustomFileInputsUpload } from "@/Constant";
 import { ImageType } from "@/Redux/Reducers/ImageFetchSlice";
 
 interface ImageSelectorProps {
-  ref?: React.RefObject<HTMLInputElement>;
+  imageName?: string;
   onImageSelect: (image: string) => void;
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({
-  ref,
+  imageName,
   onImageSelect,
 }) => {
   const dispatch = useAppDispatch();
@@ -40,9 +40,9 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
   const extraLargeScreenToggle = () => setExtraLargeScreen(!extraLargeScreen);
 
-  const handleImageSelect = (secure_url: string, filename: string) => {
+  const handleImageSelect = (public_id: string, filename: string) => {
     setValue(filename);
-    onImageSelect(secure_url);
+    onImageSelect(public_id);
     extraLargeScreenToggle();
   };
 
@@ -54,11 +54,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
         </InputGroupText>
         <Input
           type="text"
-          value={value}
+          value={imageName || value}
           onClick={extraLargeScreenToggle}
           readOnly
           placeholder="Select Image"
-        
         />
       </InputGroup>
       <CommonModal
@@ -93,11 +92,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
                               disabled={false}
                               onChange={() =>
                                 handleImageSelect(
-                                  image.secure_url,
+                                  image.public_id,
                                   image.filename
                                 )
                               }
-                              
                             />
                             <Label
                               className="mb-0"

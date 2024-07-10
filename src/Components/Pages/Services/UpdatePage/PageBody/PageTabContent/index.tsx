@@ -26,7 +26,7 @@ import {
   ColorScheme,
   Status,
 } from "@/Constant";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAppSelector } from "@/Redux/Hooks";
 import CommonButton from "../../../../CommonButton";
 import { Controller, useForm } from "react-hook-form";
@@ -40,6 +40,7 @@ import { BodyDataItem } from "@/Types/PageBodyDataType";
 import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
 import axiosInstance from "@/Config/axiosConfig";
 import { ServiceFormTypes } from "@/Types/ServiceType";
+import { SlugContext } from "@/app/(MainBody)/services/update_service/[slug]/page";
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -79,10 +80,23 @@ const schema = z.object({
 });
 
 const PageTabContent = () => {
+  const { navId } = useAppSelector((state) => state.addService);
+  const [bodyData, setBodyData] = useState<BodyDataItem[]>([]);
+  const [services, setServices] = useState<ServiceFormTypes[]>([]);
+
+  const context = useContext(SlugContext);
+  if (!context) {
+    throw new Error(
+      "PageTabContent must be used within a SlugContext.Provider"
+    );
+  }
+  const { slug } = context;
+
   const {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -96,23 +110,54 @@ const PageTabContent = () => {
       serviceName: "",
       slug: "",
       colorScheme: "",
-      parentService: undefined,
+      parentService: "",
       status: "",
     },
   });
-  const { navId } = useAppSelector((state) => state.addService);
-  const [bodyData, setBodyData] = useState<BodyDataItem[]>([]);
-  const [services, setServices] = useState<ServiceFormTypes[]>([]);
 
-  const fetchServices = async () => {
-    const result = await axiosInstance.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
-    );
-    setServices(result.data);
+  // Fetch Current Services
+  const fetchCurrentService = async () => {
+    try {
+      const result = await axiosInstance.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices/${slug}`
+      );
+
+      console.log(result.data);
+      const fetchedBodyData = result.data.bodyData || [];
+      setBodyData(fetchedBodyData);
+      setSelectedComponents(fetchedBodyData);
+      reset({
+        metaTitle: result.data.metaTitle || "",
+        metaDescription: result.data.metaDescription || "",
+        canonicalLink: result.data.canonicalLink || "",
+        openGraphImage: result.data.openGraphImage || "",
+        robotsText: result.data.robotsText || "",
+        focusKeyword: result.data.focusKeyword || "",
+        serviceName: result.data.serviceName || "",
+        slug: result.data.slug || "",
+        colorScheme: result.data.colorScheme || "",
+        parentService: result.data.parentService || "",
+        status: result.data.status || "",
+      });
+    } catch (error) {
+      console.error("Error fetching current service:", error);
+    }
+  };
+
+  const fetchAllServices = async () => {
+    try {
+      const result = await axiosInstance.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
+      );
+      setServices(result.data);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
   };
 
   useEffect(() => {
-    fetchServices();
+    fetchCurrentService();
+    fetchAllServices();
   }, []);
 
   const onSubmit = async (data: any) => {
@@ -138,17 +183,21 @@ const PageTabContent = () => {
   );
 
   const handleComponentSelect = (componentName: string) => {
-    const label = ImageWithRadioDataList.filter(
+    const label = ImageWithRadioDataList.find(
       (item) => item.componentName === componentName
     );
-    const newComponent = {
-      id: `${componentName}-` + uuidv4().substr(0, 4),
-      componentName,
-      label: label[0].label,
-      body: {},
-    };
-    setSelectedComponents((prevSelected) => [...prevSelected, newComponent]);
-    setBodyData((prevBodyData) => [...prevBodyData, newComponent]);
+    if (label) {
+      const newComponent = {
+        id: `${componentName}-${uuidv4().substr(0, 4)}`,
+        componentName,
+        label: label.label,
+        body: {},
+      };
+      setSelectedComponents((prevSelected) => [...prevSelected, newComponent]);
+      setBodyData((prevBodyData) => [...prevBodyData, newComponent]);
+    } else {
+      console.error("Component not found:", componentName);
+    }
   };
 
   return (
@@ -218,7 +267,7 @@ const PageTabContent = () => {
                   render={({ field }) => (
                     <InputGroup>
                       <InputGroupText id="basic-addon3">
-                        {"https://adaired.com/services/"}
+                        {"https://adaired.com/"}
                       </InputGroupText>
                       <Input
                         type="text"
@@ -243,9 +292,10 @@ const PageTabContent = () => {
                   name="openGraphImage"
                   render={({ field }) => (
                     <ImageSelector
-                      onImageSelect={(e) => {
-                        setValue("openGraphImage", e);
-                      }}
+                    imageName={field.value} // Pass field value as imageName
+                    onImageSelect={(e) => {
+                      setValue("openGraphImage", e);
+                    }}
                     />
                   )}
                 />
@@ -305,7 +355,7 @@ const PageTabContent = () => {
                       type="text"
                       placeholder={ServiceName}
                       {...field}
-                      className={errors.focusKeyword ? "is-invalid" : ""}
+                      className={errors.serviceName ? "is-invalid" : ""}
                     />
                   )}
                 />
@@ -350,12 +400,14 @@ const PageTabContent = () => {
                       type="color"
                       placeholder={ColorScheme}
                       {...field}
-                      className={errors.slug ? "is-invalid" : ""}
+                      className={errors.colorScheme ? "is-invalid" : ""}
                     />
                   )}
                 />
-                {errors.slug && (
-                  <span className="text-danger">{errors.slug.message}</span>
+                {errors.colorScheme && (
+                  <span className="text-danger">
+                    {errors.colorScheme.message}
+                  </span>
                 )}
               </FormGroup>
 
@@ -369,7 +421,7 @@ const PageTabContent = () => {
                       type="select"
                       {...field}
                       className={`form-control ${
-                        errors.focusKeyword ? "is-invalid" : ""
+                        errors.parentService ? "is-invalid" : ""
                       }`}
                     >
                       <option value="">Select Parent Service</option>
@@ -398,19 +450,17 @@ const PageTabContent = () => {
                       type="select"
                       {...field}
                       className={`form-control ${
-                        errors.focusKeyword ? "is-invalid" : ""
+                        errors.status ? "is-invalid" : ""
                       }`}
                     >
-                      <option value="">Select Page Status</option>
+                      <option value="">Select Status</option>
                       <option value="publish">Publish</option>
                       <option value="draft">Draft</option>
                     </Input>
                   )}
                 />
                 {errors.status && (
-                  <span className="text-danger">
-                    {errors.status.message}
-                  </span>
+                  <span className="text-danger">{errors.status.message}</span>
                 )}
               </FormGroup>
             </TabPane>

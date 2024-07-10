@@ -1,0 +1,99 @@
+import SVG from "@/CommonComponent/SVG";
+import { Page } from "@/Data/Application/Page";
+import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
+import { setNavId } from "@/Redux/Reducers/AddServiceSlice";
+import { Col, Nav, NavItem, NavLink } from "reactstrap";
+const PageLeftSidebar = () => {
+  const { navId } = useAppSelector((state) => state.addService);
+  const dispatch = useAppDispatch();
+  return (
+    <Col
+      xxl="3"
+      xl="4"
+      className="box-col-4e sidebar-left-wrapper mb-2 add-product-tab"
+    >
+      <Nav pills className="sidebar-left-icons border-0" tabs>
+        {Page.map((data, i) => (
+          <NavItem key={i}>
+            <NavLink
+              className="border-0"
+              active={navId === data.id ? true : false}
+              onClick={() => dispatch(setNavId(data.id))}
+            >
+              <div className="nav-rounded">
+                <div className="product-icons">
+                  <SVG className="stroke-icon" iconId={data.icon} />
+                </div>
+              </div>
+              <div className="product-tab-content">
+                <h5>{data.title}</h5>
+                <p>{data.detail}</p>
+              </div>
+            </NavLink>
+          </NavItem>
+        ))}
+      </Nav>
+    </Col>
+  );
+};
+
+export default PageLeftSidebar;
+
+
+// import React, { useState } from "react";
+// import SVG from "@/CommonComponent/SVG";
+// import FloatingWidget from "@/Components/Form&Table/Form/Templates/RenderSelectedInputFields/FloationgWidget";
+// import { Page } from "@/Data/Application/Page";
+// import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
+// import { setNavId } from "@/Redux/Reducers/AddServiceSlice";
+// import { Col, Nav, NavItem, NavLink } from "reactstrap";
+// import { BodyDataItem } from "@/Types/PageBodyDataType"; // Ensure correct import
+
+// const PageLeftSidebar = () => {
+//   const { navId } = useAppSelector((state) => state.addService);
+//   const dispatch = useAppDispatch();
+
+//   // State for selected components and body data
+//   const [selectedComponents, setSelectedComponents] = useState<BodyDataItem[]>([]);
+//   const [bodyData, setBodyData] = useState<BodyDataItem[]>([]);
+
+//   return (
+//     <Col
+//       xxl="3"
+//       xl="4"
+//       className="box-col-4e sidebar-left-wrapper mb-2 add-product-tab"
+//     >
+//       <Nav pills className="sidebar-left-icons border-0" tabs>
+//         {Page.map((data, i) => (
+//           <NavItem key={i}>
+//             <NavLink
+//               className="border-0"
+//               active={navId === data.id ? true : false}
+//               onClick={() => dispatch(setNavId(data.id))}
+//             >
+//               <div className="nav-rounded">
+//                 <div className="product-icons">
+//                   <SVG className="stroke-icon" iconId={data.icon} />
+//                 </div>
+//               </div>
+//               <div className="product-tab-content">
+//                 <h5>{data.title}</h5>
+//                 <p>{data.detail}</p>
+//               </div>
+//             </NavLink>
+//           </NavItem>
+//         ))}
+//       </Nav>
+
+//       {/* Integrate FloatingWidget */}
+//       <FloatingWidget
+//         selectedComponents={selectedComponents}
+//         setSelectedComponents={setSelectedComponents}
+//         setBodyData={setBodyData}
+//         bodyData={bodyData}
+//       />
+//     </Col>
+//   );
+// };
+
+// export default PageLeftSidebar;

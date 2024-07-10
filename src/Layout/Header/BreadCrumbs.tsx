@@ -29,12 +29,12 @@ export const BreadCrumbs = () => {
             {firstPart}
           </BreadcrumbItem>
           {secondPart && (
-            <BreadcrumbItem className={`f-w-400 ${!thirdPart ? "active" : ""}`}>
+            <BreadcrumbItem className={`f-w-400 text-capitalize ${!thirdPart ? "active" : ""}`}>
               {secondPart}
             </BreadcrumbItem>
           )}
           {thirdPart && (
-            <BreadcrumbItem className={`f-w-400 active`}>
+            <BreadcrumbItem className={`f-w-400 text-capitalize active`}>
               {thirdPart}
             </BreadcrumbItem>
           )}

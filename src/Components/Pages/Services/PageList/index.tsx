@@ -163,15 +163,11 @@
 
 "use client";
 import { SearchTableButton } from "@/Constant";
-import {
-  ProductListTableData,
-  ProductListTableDataColumn,
-} from "@/Data/Application/Ecommerce";
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import DataTable from "react-data-table-component";
 import { Card, CardBody, Col, Container, Input, Label, Row } from "reactstrap";
 // import { CollapseFilterData } from "./CollapseFilterData";
-import { ProductListFilterHeader } from "./ProductListFilterHeader";
+// import { ProductListFilterHeader } from "./ProductListFilterHeader";
 import { ServiceFormTypes } from "@/Types/ServiceType";
 import ActionDataSource from "@/Components/Form&Table/Table/CommonComponent/ActionDataSource";
 import axios from "axios";
@@ -301,7 +297,8 @@ const ProductListContainer = () => {
         cell: (row: ServiceFormTypes) => (
           <ActionDataSource
             id={row._id}
-            editUrl=""
+            slug={row.slug}
+            editUrl={`/services/update_service/`}
             viewUrl=""
             toastMessage="Are you sure, you wanna delete this?"
             toastName="Delete"

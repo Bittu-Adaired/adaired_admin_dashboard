@@ -9,6 +9,7 @@ interface Identifiable {
 
 interface ActionDataSourceProp<T extends Identifiable> {
   id: string;
+  slug: string;
   editUrl: string;
   viewUrl: string;
   toastMessage: string;
@@ -18,6 +19,7 @@ interface ActionDataSourceProp<T extends Identifiable> {
 
 const ActionDataSource = <T extends Identifiable>({
   id,
+  slug,
   editUrl,
   viewUrl,
   toastMessage,
@@ -33,10 +35,9 @@ const ActionDataSource = <T extends Identifiable>({
   const actions = [
     {
       name: "edit",
-      // icon: <Edit className="txt-success h-4 w-4" />,
       icon: <SVG iconId="edit-content" className="txt-success h-4 w-4" />,
       tooltip: "Edit",
-      link: `${editUrl}/${id}`,
+      link: `${editUrl}/${slug}`,
     },
     {
       name: "delete",
