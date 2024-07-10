@@ -23,6 +23,7 @@ import {
   ServiceName,
   ParentServiceName,
   Slug,
+  ColorScheme,
 } from "@/Constant";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/Redux/Hooks";
@@ -38,6 +39,7 @@ import ImageSelector from "@/Components/Form&Table/Form/Inputs/ImageSelector";
 import { ServiceFormTypes } from "@/Types/ServiceType";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
+import axiosInstance from "@/Config/axiosConfig";
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -67,27 +69,13 @@ const schema = z.object({
   slug: z.string().min(3, {
     message: "Slug is required",
   }),
+  colorScheme: z.string().min(3, {
+    message: "Color Scheme is required",
+  }),
   parentServiceName: z.string().optional(),
 });
 
 const PageTabContent = ({ id }: { id: string }) => {
-  const [fetchedService, setFetchedService] = useState<ServiceFormTypes>();
-
-  // *** Fetch Service ***
-  const fetchService = async () => {
-    try {
-      const result = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/findService/${id}`
-      );
-      setFetchedService(result.data);
-    } catch (error) {
-      console.error("Error fetching service:", error);
-    }
-  };
-  useEffect(() => {
-    fetchService();
-  }, [id]);
-
   const {
     handleSubmit,
     control,
@@ -96,14 +84,15 @@ const PageTabContent = ({ id }: { id: string }) => {
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      metaTitle: fetchedService?.metaTitle,
-      metaDescription: fetchedService?.metaTitle,
+      metaTitle: "",
+      metaDescription: "",
       canonicalLink: "",
       openGraphImage: "",
       robotsText: "",
       focusKeyword: "",
       serviceName: "",
       slug: "",
+      colorScheme: "",
       parentServiceName: "",
     },
   });
@@ -113,13 +102,13 @@ const PageTabContent = ({ id }: { id: string }) => {
     const formData = { ...data, bodyData: bodyData };
     console.log("Form Data:", formData);
     try {
-      const request = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/page/newPage`,
+      const request = await axiosInstance.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/service/createService`,
         formData
       );
-      console.log(request);
+      console.log("Request", request);
     } catch (error) {
-      console.log(error);
+      console.log("Error", error);
     }
   };
 
@@ -306,6 +295,24 @@ const PageTabContent = ({ id }: { id: string }) => {
                   <span className="text-danger">
                     {errors.serviceName.message}
                   </span>
+                )}
+              </FormGroup>
+              <FormGroup>
+                <Label check>{ColorScheme}:</Label>
+                <Controller
+                  control={control}
+                  name="colorScheme"
+                  render={({ field }) => (
+                    <Input
+                      type="color"
+                      placeholder={ColorScheme}
+                      {...field}
+                      className={errors.slug ? "is-invalid" : ""}
+                    />
+                  )}
+                />
+                {errors.slug && (
+                  <span className="text-danger">{errors.slug.message}</span>
                 )}
               </FormGroup>
               <FormGroup>
