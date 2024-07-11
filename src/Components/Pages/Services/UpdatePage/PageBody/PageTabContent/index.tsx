@@ -83,6 +83,7 @@ const PageTabContent = () => {
   const { navId } = useAppSelector((state) => state.addService);
   const [bodyData, setBodyData] = useState<BodyDataItem[]>([]);
   const [services, setServices] = useState<ServiceFormTypes[]>([]);
+  const [serviceId, setServiceId] = useState("");
 
   const context = useContext(SlugContext);
   if (!context) {
@@ -110,39 +111,89 @@ const PageTabContent = () => {
       serviceName: "",
       slug: "",
       colorScheme: "",
-      parentService: "",
+      parentService: undefined,
       status: "",
     },
   });
 
   // Fetch Current Services
+  // const fetchCurrentService = async () => {
+  //   try {
+  //     const result = await axiosInstance.get(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices/${slug}`
+  //     );
+  //     setServiceId(result.data._id);
+  //     const fetchedBodyData = result.data.bodyData || [];
+  //     setBodyData(fetchedBodyData);
+  //     setSelectedComponents(fetchedBodyData);
+
+  //     // Extract the last segment after the last forward slash
+  //     const extractLastSegment = (url: string) => {
+  //       if (!url) return "";
+  //       const segments = url.split("/");
+  //       return segments[segments.length - 1];
+  //     };
+
+  //     reset({
+  //       metaTitle: result.data.metaTitle || "",
+  //       metaDescription: result.data.metaDescription || "",
+  //       canonicalLink: extractLastSegment(result.data.canonicalLink),
+  //       openGraphImage: extractLastSegment(result.data.openGraphImage),
+  //       robotsText: result.data.robotsText || "",
+  //       focusKeyword: result.data.focusKeyword || "",
+  //       serviceName: result.data.serviceName || "",
+  //       slug: result.data.slug || "",
+  //       colorScheme: result.data.colorScheme || "",
+  //       parentService:
+  //         result.data.parentService === ""
+  //           ? undefined
+  //           : result.data.parentService || undefined,
+  //       status: result.data.status || "",
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching current service:", error);
+  //   }
+  // };
+
   const fetchCurrentService = async () => {
     try {
       const result = await axiosInstance.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices/${slug}`
       );
-
-      console.log(result.data);
+      setServiceId(result.data._id);
       const fetchedBodyData = result.data.bodyData || [];
       setBodyData(fetchedBodyData);
       setSelectedComponents(fetchedBodyData);
+  
+      // Extract the last segment after the last forward slash and remove any file extension
+      const extractLastSegment = (url: string) => {
+        if (!url) return "";
+        const segments = url.split("/");
+        const lastSegment = segments[segments.length - 1];
+        return lastSegment.replace(/\.[^/.]+$/, ""); // Remove file extension
+      };
+  
       reset({
         metaTitle: result.data.metaTitle || "",
         metaDescription: result.data.metaDescription || "",
-        canonicalLink: result.data.canonicalLink || "",
-        openGraphImage: result.data.openGraphImage || "",
+        canonicalLink: extractLastSegment(result.data.canonicalLink),
+        openGraphImage: extractLastSegment(result.data.openGraphImage),
         robotsText: result.data.robotsText || "",
         focusKeyword: result.data.focusKeyword || "",
         serviceName: result.data.serviceName || "",
         slug: result.data.slug || "",
         colorScheme: result.data.colorScheme || "",
-        parentService: result.data.parentService || "",
+        parentService:
+          result.data.parentService === ""
+            ? undefined
+            : result.data.parentService || undefined,
         status: result.data.status || "",
       });
     } catch (error) {
       console.error("Error fetching current service:", error);
     }
   };
+  
 
   const fetchAllServices = async () => {
     try {
@@ -164,8 +215,8 @@ const PageTabContent = () => {
     const formData = { ...data, bodyData: bodyData };
     console.log("Form Data:", formData);
     try {
-      const request = await axiosInstance.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/createService`,
+      const request = await axiosInstance.put(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/service/updateService/${serviceId}   `,
         formData
       );
       console.log("Request", request);
@@ -292,10 +343,10 @@ const PageTabContent = () => {
                   name="openGraphImage"
                   render={({ field }) => (
                     <ImageSelector
-                    imageName={field.value} // Pass field value as imageName
-                    onImageSelect={(e) => {
-                      setValue("openGraphImage", e);
-                    }}
+                      imageName={field.value} // Pass field value as imageName
+                      onImageSelect={(e) => {
+                        setValue("openGraphImage", e);
+                      }}
                     />
                   )}
                 />

@@ -69,6 +69,15 @@
 //     setFaq(updatedFAQ);
 //   };
 
+//   const handleEditorChange = (value: string, idx: number) => {
+//     const updatedFAQ = [...faq];
+//     updatedFAQ[idx] = {
+//       ...updatedFAQ[idx],
+//       answer: value,
+//     };
+//     setFaq(updatedFAQ);
+//   };
+
 //   const toggleAccordion = (idx: number) => {
 //     const updatedOpenIndexes = [...openIndexes];
 //     updatedOpenIndexes[idx] = !updatedOpenIndexes[idx];
@@ -111,16 +120,8 @@
 //               <Collapse isOpen={openIndexes[idx]}>
 //                 <CardBody>
 //                   <Editor
-//                     value={bodyData[index]?.body?.introDescription ?? ""}
-//                     onBlurEditor={onBlurEditor}
-//                   />
-//                   <Input
-//                     type="textarea"
-//                     placeholder="Answer"
-//                     rows={3}
-//                     name="answer"
 //                     value={item.answer}
-//                     onChange={(e) => handlefaqChange(e, idx)}
+//                     onBlurEditor={(value) => handleEditorChange(value, idx)}
 //                   />
 //                 </CardBody>
 //               </Collapse>
@@ -174,6 +175,14 @@ const FAQ: React.FC<FaqComponentProps> = ({
 }) => {
   const [faq, setFaq] = useState<FAQ[]>([{ question: "", answer: "" }]);
   const [openIndexes, setOpenIndexes] = useState<boolean[]>([false]);
+
+  useEffect(() => {
+    // Initialize faq with existing data from bodyData if it exists
+    if (bodyData[index]?.body?.faq) {
+      setFaq(bodyData[index].body.faq);
+      setOpenIndexes(new Array(bodyData[index].body.faq.length).fill(false));
+    }
+  }, [bodyData, index]);
 
   useEffect(() => {
     handleInputChange(component, index, "faq", faq);

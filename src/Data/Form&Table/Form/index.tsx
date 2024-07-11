@@ -44,4 +44,13 @@ export const ImageWithRadioDataList = [
     defaultChecked: false,
     componentName: "ImagewithDetailedFeatureDescription",
   },
+  {
+    id: "img-radio-6",
+    src: "KeyFeatureCrossLayout",
+    label: "Key Feature Cross Layout",
+    alt: "faq",
+    disabled: false,
+    defaultChecked: false,
+    componentName: "KeyFeatureCrossLayout",
+  },
 ];

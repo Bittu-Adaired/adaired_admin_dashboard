@@ -14,6 +14,7 @@ import ImageWithTitle from "../ImageWithTitle";
 import TwoColumnFeatureSection from "../TwoColumnFeatureSection";
 import FAQComponent from "../FAQ";
 import ImagewithDetailedFeatureDescription from "../ImagewithDetailedFeatureDescription";
+import KeyFeatureCrossLayout from "../KeyFeatureCrossLayout";
 
 interface RenderSelectedInputFieldsProps {
   selectedComponents: BodyDataItem[];
@@ -91,6 +92,8 @@ const RenderSelectedInputFields: React.FC<RenderSelectedInputFieldsProps> = ({
         return <ImagewithDetailedFeatureDescription {...commonProps} />;
       case "ImageWithTitle":
         return <ImageWithTitle {...commonProps} />;
+      case "KeyFeatureCrossLayout":
+        return <KeyFeatureCrossLayout {...commonProps} />;
       default:
         return null;
     }
