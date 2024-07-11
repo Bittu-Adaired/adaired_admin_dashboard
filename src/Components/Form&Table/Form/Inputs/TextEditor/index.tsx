@@ -1,8 +1,18 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+"use client";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import dynamic from "next/dynamic";
 
 // Dynamically import JoditEditor with ssr: false
-const JoditEditor = dynamic(() => import("jodit-pro-react"), { ssr: false });
+const JoditEditor = dynamic(() => import("jodit-pro-react"), {
+  ssr: true,
+  loading: () => <p>Loading ...</p>,
+});
 
 const Editor = ({
   value,
@@ -24,25 +34,26 @@ const Editor = ({
     (newContent: string) => {
       setContent(newContent);
       onBlurEditor(newContent);
+      console.log(newContent);
     },
     [onBlurEditor]
   );
 
-  const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/docs/
-    uploader: {
-      url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
-    },
-    filebrowser: {
-      ajax: {
-        url: "https://xdsoft.net/jodit/finder/",
+  const config = useMemo(
+    () => ({
+      readonly: false, // all options from https://xdsoft.net/jodit/docs/
+      uploader: {
+        url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
       },
-      height: 580,
-    },
-  };
+      filebrowser: {
+        height: 580,
+      },
+    }),
+    []
+  );
 
   // Conditionally render the editor only on the client side
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return null;
   }
 

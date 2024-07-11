@@ -29,7 +29,6 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSectionProps> = ({
   handleInputChange,
   bodyData,
 }) => {
-
   const [featureCardData, setFeatureCardData] = useState<FeatureCard[]>([]);
 
   useEffect(() => {
@@ -74,6 +73,10 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSectionProps> = ({
     editorType: "description_1" | "description_2"
   ) => {
     handleInputChange(component, index, editorType, content);
+  };
+
+  const onImageSelect = (imgUrl: string) => {
+    handleInputChange(component, index, "imgUrl", imgUrl);
   };
 
   return (
