@@ -3,7 +3,11 @@ import React from "react";
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 import PageBody from "./PageBody";
 
-const UpdatePage = () => {
+export interface UpdatePageProps {
+  slug: string;
+}
+
+const UpdatePage = ({ slug }: UpdatePageProps) => {
   const pathName = PathNameFinder();
   return (
     <Container fluid>
@@ -14,7 +18,7 @@ const UpdatePage = () => {
               <h5>{pathName.Last}</h5>
             </CardHeader>
             <CardBody>
-              <PageBody />
+              <PageBody slug={slug} />
             </CardBody>
           </Card>
         </Col>

@@ -4,7 +4,7 @@ import { SideBar } from "@/Layout/Sidebar/Sidebar";
 import Store from "@/Redux/Store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import "../../../src/index.scss";
+// import "../../../src/index.scss";
 import { Header } from "@/Layout/Header/Header";
 import TapTop from "@/Layout/TapTop";
 

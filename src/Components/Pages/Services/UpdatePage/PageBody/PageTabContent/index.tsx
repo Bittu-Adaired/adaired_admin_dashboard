@@ -40,7 +40,7 @@ import { BodyDataItem } from "@/Types/PageBodyDataType";
 import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
 import axiosInstance from "@/Config/axiosConfig";
 import { ServiceFormTypes } from "@/Types/ServiceType";
-import { SlugContext } from "@/app/(MainBody)/services/update_service/[slug]/page";
+import { UpdatePageProps } from "../../index";
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -79,20 +79,11 @@ const schema = z.object({
   }),
 });
 
-const PageTabContent = () => {
+const PageTabContent = ({ slug }: UpdatePageProps) => {
   const { navId } = useAppSelector((state) => state.addService);
   const [bodyData, setBodyData] = useState<BodyDataItem[]>([]);
   const [services, setServices] = useState<ServiceFormTypes[]>([]);
   const [serviceId, setServiceId] = useState("");
-
-  const context = useContext(SlugContext);
-  if (!context) {
-    throw new Error(
-      "PageTabContent must be used within a SlugContext.Provider"
-    );
-  }
-  const { slug } = context;
-
   const {
     handleSubmit,
     control,
@@ -164,7 +155,7 @@ const PageTabContent = () => {
       const fetchedBodyData = result.data.bodyData || [];
       setBodyData(fetchedBodyData);
       setSelectedComponents(fetchedBodyData);
-  
+
       // Extract the last segment after the last forward slash and remove any file extension
       const extractLastSegment = (url: string) => {
         if (!url) return "";
@@ -172,7 +163,7 @@ const PageTabContent = () => {
         const lastSegment = segments[segments.length - 1];
         return lastSegment.replace(/\.[^/.]+$/, ""); // Remove file extension
       };
-  
+
       reset({
         metaTitle: result.data.metaTitle || "",
         metaDescription: result.data.metaDescription || "",
@@ -193,7 +184,6 @@ const PageTabContent = () => {
       console.error("Error fetching current service:", error);
     }
   };
-  
 
   const fetchAllServices = async () => {
     try {
