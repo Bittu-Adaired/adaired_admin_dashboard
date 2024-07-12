@@ -119,11 +119,11 @@ const PageTabContent = () => {
     const formData = { ...data, bodyData: bodyData };
     console.log("Form Data:", formData);
     try {
-      const request = await axiosInstance.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/createService`,
-        formData
-      );
-      console.log("Request", request);
+      // const request = await axiosInstance.post(
+      //   `${process.env.NEXT_PUBLIC_BASE_URL}/service/createService`,
+      //   formData
+      // );
+      // console.log("Request", request);
     } catch (error) {
       console.log("Error", error);
     }

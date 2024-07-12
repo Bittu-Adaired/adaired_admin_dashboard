@@ -388,11 +388,32 @@ body.dark-only.box-layout {
 // @import "global/filters/";
 
 // Flexbox & Grid
+@import "global/flexbox_and_grid/flexbasis";
+@import "global/flexbox_and_grid/flexdirection";
+@import "global/flexbox_and_grid/flexwrap";
+@import "global/flexbox_and_grid/flex";
+@import "global/flexbox_and_grid/flexgrow";
+@import "global/flexbox_and_grid/flexshrink";
+@import "global/flexbox_and_grid/order";
+@import "global/flexbox_and_grid/gridtemplatecolumns";
+@import "global/flexbox_and_grid/gridcolumnstartend";
+@import "global/flexbox_and_grid/gridautorows";
+@import "global/flexbox_and_grid/gridrowstartend";
+@import "global/flexbox_and_grid/gridautoflow";
+@import "global/flexbox_and_grid/gridautocolumns";
+@import "global/flexbox_and_grid/gridautorows";
+@import "global/flexbox_and_grid/gap";
+@import "global/flexbox_and_grid/justifycontent";
+@import "global/flexbox_and_grid/justifyitems";
+@import "global/flexbox_and_grid/justifyself";
+@import "global/flexbox_and_grid/aligncontent";
+@import "global/flexbox_and_grid/alignItems";
+@import "global/flexbox_and_grid/alignself";
+@import "global/flexbox_and_grid/placecontent";
+@import "global/flexbox_and_grid/placeitems";
+@import "global/flexbox_and_grid/placeself";
 @import "global/flexbox_and_grid/flexbox";
 @import "global/flexbox_and_grid/spacebetween";
-@import "global/flexbox_and_grid/gap";
-@import "global/flexbox_and_grid/flexDirection";
-@import "global/flexbox_and_grid/alignItems";
 
 
 // Interactivity

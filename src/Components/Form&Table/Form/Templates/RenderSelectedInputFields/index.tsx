@@ -14,6 +14,7 @@ import TwoColumnFeatureSection from "../TwoColumnFeatureSection";
 import FAQComponent from "../FAQ";
 import ImagewithDetailedFeatureDescription from "../ImagewithDetailedFeatureDescription";
 import KeyFeatureCrossLayout from "../KeyFeatureCrossLayout";
+import KeyFeatureListLayout from "../KeyFeatureListLayout";
 
 interface RenderSelectedInputFieldsProps {
   selectedComponents: BodyDataItem[];
@@ -85,13 +86,14 @@ const RenderSelectedInputFields: React.FC<RenderSelectedInputFieldsProps> = ({
     switch (component.componentName) {
       case "TwoColumnFeatureSection":
         return <TwoColumnFeatureSection {...commonProps} />;
-        case "KeyFeatureCrossLayout":
-          return <KeyFeatureCrossLayout {...commonProps} />;
+      case "KeyFeatureCrossLayout":
+        return <KeyFeatureCrossLayout {...commonProps} />;
+      case "KeyFeatureListLayout":
+        return <KeyFeatureListLayout {...commonProps} />;
       case "FAQ":
         return <FAQComponent {...commonProps} />;
       case "ImagewithDetailedFeatureDescription":
         return <ImagewithDetailedFeatureDescription {...commonProps} />;
-
       default:
         return null;
     }

@@ -25,21 +25,23 @@ const KeyFeatureCrossLayout: React.FC<KeyFeatureCrossLayoutProps> = ({
     handleInputChange(component, index, e.target.name, e.target.value);
   };
   return (
-    <div>
-      <Input
-        type="text"
-        name="title"
-        value={bodyData[index]?.body?.title ?? ""}
-        onChange={handleChange}
-        placeholder="Title"
-      />
-      <Editor
-        value={bodyData[index]?.body?.description_2 ?? ""}
-        onBlurEditor={(content) =>
-          handleInputChange(content, index, "description", content)
-        }
-      />
-      <div>
+    <div className={`space-y-2`}>
+      <div className={`space-y-2`}>
+        <Input
+          type="text"
+          name="title"
+          value={bodyData[index]?.body?.title ?? ""}
+          onChange={handleChange}
+          placeholder="Title"
+        />
+        <Editor
+          value={bodyData[index]?.body?.description_2 ?? ""}
+          onBlurEditor={(content) =>
+            handleInputChange(content, index, "description", content)
+          }
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-2">
         <Input
           type="text"
           name="point_1"
