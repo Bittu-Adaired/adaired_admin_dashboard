@@ -380,6 +380,7 @@ body.dark-only.box-layout {
 
 // Borders
 @import "global/borders/border";
+@import "global/borders/borderStyle";
 
 // Effects
 // @import "global/effects/";
@@ -415,9 +416,9 @@ body.dark-only.box-layout {
 @import "global/flexbox_and_grid/flexbox";
 @import "global/flexbox_and_grid/spacebetween";
 
-
 // Interactivity
 @import "global/interactivity/pointerEvents";
+@import "global/interactivity/cursor";
 
 // Layout
 @import "global/layout/display";

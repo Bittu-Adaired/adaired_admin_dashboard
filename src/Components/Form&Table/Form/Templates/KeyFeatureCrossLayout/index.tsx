@@ -13,7 +13,7 @@ type KeyFeatureCrossLayoutProps = {
     value: any
   ) => void;
   bodyData: BodyDataItem[];
-};
+}; 
 
 const KeyFeatureCrossLayout: React.FC<KeyFeatureCrossLayoutProps> = ({
   component,
@@ -35,7 +35,7 @@ const KeyFeatureCrossLayout: React.FC<KeyFeatureCrossLayoutProps> = ({
           placeholder="Title"
         />
         <Editor
-          value={bodyData[index]?.body?.description_2 ?? ""}
+          value={bodyData[index]?.body?.description ?? ""}
           onBlurEditor={(content) =>
             handleInputChange(content, index, "description", content)
           }

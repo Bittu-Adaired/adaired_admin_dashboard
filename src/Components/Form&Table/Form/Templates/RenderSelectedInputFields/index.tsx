@@ -10,11 +10,14 @@ import { v4 as uuidv4 } from "uuid";
 import { BodyDataItem } from "@/Types/PageBodyDataType"; // Ensure correct import
 
 // Components
-import TwoColumnFeatureSection from "../TwoColumnFeatureSection";
-import FAQComponent from "../FAQ";
-import ImagewithDetailedFeatureDescription from "../ImagewithDetailedFeatureDescription";
+import TwoColumnFeatureSection from "../TwoColumnFeatureLayout";
+import FAQComponent from "../FaqLayout";
+import ImagewithDetailedFeatureDescription from "../ImagewithDetailedFeatureDescriptionLayout";
 import KeyFeatureCrossLayout from "../KeyFeatureCrossLayout";
 import KeyFeatureListLayout from "../KeyFeatureListLayout";
+import OurProcessLayout from "../OurProcessLayout";
+import ServiceKeyFeaturesLayout from "../ServiceKeyFeaturesLayout";
+import GridLayout from "../GridLayout";
 
 interface RenderSelectedInputFieldsProps {
   selectedComponents: BodyDataItem[];
@@ -90,6 +93,12 @@ const RenderSelectedInputFields: React.FC<RenderSelectedInputFieldsProps> = ({
         return <KeyFeatureCrossLayout {...commonProps} />;
       case "KeyFeatureListLayout":
         return <KeyFeatureListLayout {...commonProps} />;
+      case "OurProcessLayout":
+        return <OurProcessLayout {...commonProps} />;
+      case "ServiceKeyFeaturesLayout":
+        return <ServiceKeyFeaturesLayout {...commonProps} />;
+      case "GridLayout":
+        return <GridLayout {...commonProps} />;
       case "FAQ":
         return <FAQComponent {...commonProps} />;
       case "ImagewithDetailedFeatureDescription":

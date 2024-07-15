@@ -29,7 +29,7 @@ const ImagesWithRadio: React.FC<Props> = ({ onSelect }) => {
                   <Col xxl="3" sm="6" key={index}>
                     <div className="card-wrapper border rounded-3 checkbox-checked">
                       <h6 className="sub-title">{label}</h6>
-                      <div className="img-checkbox">
+                      <div className="img-checkbox ">
                         <Input
                           className="main-img-cover"
                           id={id}
@@ -41,7 +41,7 @@ const ImagesWithRadio: React.FC<Props> = ({ onSelect }) => {
                             onSelect(componentName);
                           }}
                         />
-                        <Label className="mb-0" htmlFor={id} check>
+                        <Label className="mb-0 cursor-pointer" htmlFor={id} check>
                           <Image
                             src={`${ImagePath}/service_page-components/${src}.png`}
                             alt={alt}

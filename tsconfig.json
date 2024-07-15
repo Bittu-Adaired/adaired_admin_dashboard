@@ -58,7 +58,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/Components/Form&Table/Form/Templates/TwoColumnFeatureSection"
+    "src/Components/Form&Table/Form/Templates/TwoColumnFeatureLayout"
   ],
   "exclude": [
     "node_modules"
