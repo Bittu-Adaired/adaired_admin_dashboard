@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Label } from "reactstrap";
 import Editor from "@/Components/Form&Table/Form/Inputs/TextEditor";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
@@ -7,6 +7,7 @@ import Button from "../../Inputs/Button";
 import { Disable } from "../../../../../Constant/index";
 import ImageSelector from "../../Inputs/ImageSelector";
 import { ImagePreview } from "@dropzone-ui/react";
+import { findImage } from "../../CommonFunctions";
 
 interface ImagewithDetailedFeatureDescription {
   component: string;
@@ -25,15 +26,9 @@ const ImagewithDetailedFeatureDescription: React.FC<
 > = ({ component, index, handleInputChange, bodyData }) => {
   const [layoutState, setLayoutState] = useState(true);
   const [imgUrl, setImgUrl] = useState("");
-  const imageSelectorRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(component, index, e.target.name, e.target.value);
-  };
-
-  const handleImageChange = (image: string) => {
-    handleInputChange(component, index, "imageUrl", image);
-    setImgUrl(image);
   };
 
   const onBlurEditor = (content: string) => {
@@ -53,12 +48,6 @@ const ImagewithDetailedFeatureDescription: React.FC<
     setLayoutState(!layoutState);
   };
 
-  const handleImagePreviewClick = () => {
-    if (imageSelectorRef.current) {
-      imageSelectorRef.current.click();
-    }
-  };
-
   return (
     <Form className="need-validation main-custom-form">
       <div
@@ -68,22 +57,19 @@ const ImagewithDetailedFeatureDescription: React.FC<
       >
         <div className="text-center rounded-lg w-50">
           <div>
-            <div
-              // className="hidden"
-              ref={imageSelectorRef}
-            >
-              <ImageSelector
-                onImageSelect={(e) => {
-                  handleImageChange(e);
-                  setImgUrl(e);
-                }}
-                
-              />
-            </div>
+            <ImagePreview
+              className="h-250 w-300 rounded-md"
+              src={imgUrl || "https://via.placeholder.com/250"}
+              alt="Preview"
+            />
 
-            <div onClick={handleImagePreviewClick}>
-              <ImagePreview src={imgUrl} />
-            </div>
+            <ImageSelector
+              onImageSelect={async (name: string) => {
+                const secureUrl = await findImage(name);
+                setImgUrl(secureUrl);
+                handleInputChange(component, index, "image", secureUrl);
+              }}
+            />
           </div>
         </div>
         <div className="w-50 space-y-2">
@@ -109,8 +95,13 @@ const ImagewithDetailedFeatureDescription: React.FC<
         </div>
       </div>
 
-      <div className="form-check form-switch pt-3" >
-        <Input id="flexSwitchCheckDefault" type="switch" role="switch" onClick={changeLayout}/>
+      <div className="form-check form-switch pt-3">
+        <Input
+          id="flexSwitchCheckDefault"
+          type="switch"
+          role="switch"
+          onClick={changeLayout}
+        />
         <Label htmlFor="flexSwitchCheckDefault" check>
           Switch Layout
         </Label>

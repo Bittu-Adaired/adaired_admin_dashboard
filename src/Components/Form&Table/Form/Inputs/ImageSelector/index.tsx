@@ -40,8 +40,8 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
   const extraLargeScreenToggle = () => setExtraLargeScreen(!extraLargeScreen);
 
-  const handleImageSelect = (public_id: string, filename: string) => {
-    setValue(filename);
+  const handleImageSelect = (public_id: string) => {
+    setValue(public_id);
     onImageSelect(public_id);
     extraLargeScreenToggle();
   };
@@ -91,10 +91,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
                               defaultChecked={false}
                               disabled={false}
                               onChange={() =>
-                                handleImageSelect(
-                                  image.public_id,
-                                  image.filename
-                                )
+                                handleImageSelect(image.public_id)
                               }
                             />
                             <Label
