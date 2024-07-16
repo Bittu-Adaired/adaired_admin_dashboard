@@ -90,7 +90,6 @@ const GridLayout = ({
         <ImageSelector
           onImageSelect={async (name: string) => {
             const secureUrl = await findImage(name);
-            console.log("Secure", secureUrl);
             handleCardChange(cardIdx, "image", secureUrl);
           }}
         />

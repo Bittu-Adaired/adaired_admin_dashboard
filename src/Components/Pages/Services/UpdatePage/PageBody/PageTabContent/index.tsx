@@ -107,45 +107,6 @@ const PageTabContent = ({ slug }: UpdatePageProps) => {
     },
   });
 
-  // Fetch Current Services
-  // const fetchCurrentService = async () => {
-  //   try {
-  //     const result = await axiosInstance.get(
-  //       `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices/${slug}`
-  //     );
-  //     setServiceId(result.data._id);
-  //     const fetchedBodyData = result.data.bodyData || [];
-  //     setBodyData(fetchedBodyData);
-  //     setSelectedComponents(fetchedBodyData);
-
-  //     // Extract the last segment after the last forward slash
-  //     const extractLastSegment = (url: string) => {
-  //       if (!url) return "";
-  //       const segments = url.split("/");
-  //       return segments[segments.length - 1];
-  //     };
-
-  //     reset({
-  //       metaTitle: result.data.metaTitle || "",
-  //       metaDescription: result.data.metaDescription || "",
-  //       canonicalLink: extractLastSegment(result.data.canonicalLink),
-  //       openGraphImage: extractLastSegment(result.data.openGraphImage),
-  //       robotsText: result.data.robotsText || "",
-  //       focusKeyword: result.data.focusKeyword || "",
-  //       serviceName: result.data.serviceName || "",
-  //       slug: result.data.slug || "",
-  //       colorScheme: result.data.colorScheme || "",
-  //       parentService:
-  //         result.data.parentService === ""
-  //           ? undefined
-  //           : result.data.parentService || undefined,
-  //       status: result.data.status || "",
-  //     });
-  //   } catch (error) {
-  //     console.error("Error fetching current service:", error);
-  //   }
-  // };
-
   const fetchCurrentService = async () => {
     try {
       const result = await axiosInstance.get(
@@ -168,7 +129,7 @@ const PageTabContent = ({ slug }: UpdatePageProps) => {
         metaTitle: result.data.metaTitle || "",
         metaDescription: result.data.metaDescription || "",
         canonicalLink: extractLastSegment(result.data.canonicalLink),
-        openGraphImage: extractLastSegment(result.data.openGraphImage),
+        openGraphImage: result.data.openGraphImage || "",
         robotsText: result.data.robotsText || "",
         focusKeyword: result.data.focusKeyword || "",
         serviceName: result.data.serviceName || "",

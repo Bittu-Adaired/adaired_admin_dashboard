@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { fetchImages } from "@/Redux/Reducers/ImageFetchSlice";
 import { CustomFileInputsUpload } from "@/Constant";
 import { ImageType } from "@/Redux/Reducers/ImageFetchSlice";
+import { FullScreen, ImagePreview } from "@dropzone-ui/react";
+import { Eye } from "react-feather";
 
 interface ImageSelectorProps {
   imageName?: string;
@@ -33,6 +35,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   );
   const [value, setValue] = useState("");
   const [extraLargeScreen, setExtraLargeScreen] = useState(false);
+  const [preview, setPreview] = useState(false);
 
   useEffect(() => {
     dispatch(fetchImages());
@@ -40,26 +43,42 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
   const extraLargeScreenToggle = () => setExtraLargeScreen(!extraLargeScreen);
 
-  const handleImageSelect = (public_id: string) => {
-    setValue(public_id);
-    onImageSelect(public_id);
+  const handleImageSelect = (secure_url: string) => {
+    setValue(secure_url);
+    onImageSelect(secure_url);
     extraLargeScreenToggle();
+  };
+
+  const handlePreview = () => {
+    setPreview(!preview);
   };
 
   return (
     <>
-      <InputGroup>
-        <InputGroupText htmlFor="inputGroupFile01">
-          {CustomFileInputsUpload}
-        </InputGroupText>
-        <Input
-          type="text"
-          value={imageName || value}
-          onClick={extraLargeScreenToggle}
-          readOnly
-          placeholder="Select Image"
-        />
-      </InputGroup>
+      <div>
+        <InputGroup className="flex">
+          <InputGroupText htmlFor="inputGroupFile01">
+            {CustomFileInputsUpload}
+          </InputGroupText>
+          <Input
+            type="text"
+            value={imageName || value}
+            onClick={extraLargeScreenToggle}
+            readOnly
+            placeholder="Select Image"
+          />
+          <FullScreen open={preview} onClose={handlePreview}>
+            <ImagePreview src={value} className="h-50 w-50" />
+          </FullScreen>
+          <div
+            onClick={handlePreview}
+            className="flex items-center p-2 border cursor-pointer"
+          >
+            <i className="fa fa-file-photo-o "> Preview</i>
+          </div>
+        </InputGroup>
+      </div>
+
       <CommonModal
         size="xl"
         isOpen={extraLargeScreen}
@@ -91,7 +110,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
                               defaultChecked={false}
                               disabled={false}
                               onChange={() =>
-                                handleImageSelect(image.public_id)
+                                handleImageSelect(image.secure_url)
                               }
                             />
                             <Label

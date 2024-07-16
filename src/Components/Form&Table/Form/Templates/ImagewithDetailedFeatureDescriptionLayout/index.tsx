@@ -3,11 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Label } from "reactstrap";
 import Editor from "@/Components/Form&Table/Form/Inputs/TextEditor";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
-import Button from "../../Inputs/Button";
-import { Disable } from "../../../../../Constant/index";
+import ButtonComp from "../../Inputs/Button";
 import ImageSelector from "../../Inputs/ImageSelector";
-import { ImagePreview } from "@dropzone-ui/react";
-import { findImage } from "../../CommonFunctions";
 
 interface ImagewithDetailedFeatureDescription {
   component: string;
@@ -25,7 +22,6 @@ const ImagewithDetailedFeatureDescription: React.FC<
   ImagewithDetailedFeatureDescription
 > = ({ component, index, handleInputChange, bodyData }) => {
   const [layoutState, setLayoutState] = useState(true);
-  const [imgUrl, setImgUrl] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(component, index, e.target.name, e.target.value);
@@ -48,6 +44,14 @@ const ImagewithDetailedFeatureDescription: React.FC<
     setLayoutState(!layoutState);
   };
 
+  // Extract button data from bodyData
+  const buttonData = bodyData[index]?.body?.button ?? {
+    buttonStatus: false,
+    buttonLink: "",
+    buttonClassname: "",
+    buttonInnerText: "Button",
+  };
+
   return (
     <Form className="need-validation main-custom-form">
       <div
@@ -57,17 +61,9 @@ const ImagewithDetailedFeatureDescription: React.FC<
       >
         <div className="text-center rounded-lg w-50">
           <div>
-            <ImagePreview
-              className="h-250 w-300 rounded-md"
-              src={imgUrl || "https://via.placeholder.com/250"}
-              alt="Preview"
-            />
-
             <ImageSelector
-              onImageSelect={async (name: string) => {
-                const secureUrl = await findImage(name);
-                setImgUrl(secureUrl);
-                handleInputChange(component, index, "image", secureUrl);
+              onImageSelect={(e) => {
+                handleInputChange(component, index, "imgUrl", e);
               }}
             />
           </div>
@@ -85,11 +81,11 @@ const ImagewithDetailedFeatureDescription: React.FC<
             onBlurEditor={onBlurEditor}
           />
           <div className="flex items-center justify-between">
-            <Button
+            <ButtonComp
               component={component}
               index={index}
               handleInputChange={handleInputChange}
-              value={Disable}
+              value={buttonData}
             />
           </div>
         </div>

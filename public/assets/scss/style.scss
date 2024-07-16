@@ -428,7 +428,9 @@ body.dark-only.box-layout {
 @import "global/sizing/width";
 
 // Spacing
-// @import "global/spacing/";
+@import "global/spacing/margin";
+@import "global/spacing/padding";
+@import "global/spacing/spacebetween";
 
 // SVG
 // @import "global/svg/";

@@ -161,7 +161,6 @@
 
 // export default TwoColumnFeatureSection;
 
-
 "use client";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import React, { useEffect, useState, useCallback } from "react";
@@ -207,7 +206,10 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSectionProps> = ({
   };
 
   const handleAddFeatureCard = () => {
-    const newFeatureCardData = [...featureCardData, { title: "", description: "" }];
+    const newFeatureCardData = [
+      ...featureCardData,
+      { title: "", description: "" },
+    ];
     setFeatureCardData(newFeatureCardData);
     handleInputChange(component, index, "featuredSection", newFeatureCardData);
   };
