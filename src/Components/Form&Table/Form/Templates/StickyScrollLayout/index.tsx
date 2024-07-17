@@ -29,7 +29,7 @@ const StickyScrollLayout = ({
   handleInputChange,
   bodyData,
 }: StickyScrollLayoutProps) => {
-  const [listItems, setListItems] = useState<IlistItems[]>([]);
+  const [listItems, setListItems] = useState<IlistItems[]>([{ icon: "", title: "", description: "" }]);
 
   // Synchronize the list items with the existing body data when the component mounts or re-renders.
   useEffect(() => {
@@ -107,7 +107,7 @@ const StickyScrollLayout = ({
     ));
 
   return (
-    <div className="space-y-2 flex gap-2 ">
+    <div className="space-y-2 grid grid-cols-2 gap-3">
       <div className="space-y-2">
         <Input
           type="text"

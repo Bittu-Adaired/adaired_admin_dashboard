@@ -5,7 +5,6 @@ import { Input, Button, Label } from "reactstrap";
 import Editor from "../../Inputs/TextEditor";
 import ImageSelector from "../../Inputs/ImageSelector";
 import { ImagePreview } from "@dropzone-ui/react";
-import { findImage } from "../../CommonFunctions";
 
 interface GridLayoutProps {
   component: string;
@@ -78,7 +77,6 @@ const GridLayout = ({
     handleInputChange(component, index, "description", content);
   };
 
-
   const renderCards = () =>
     cards.map((card, cardIdx) => (
       <div key={cardIdx} className="border p-2 rounded space-y-2">
@@ -88,10 +86,7 @@ const GridLayout = ({
           alt="Preview"
         />
         <ImageSelector
-          onImageSelect={async (name: string) => {
-            const secureUrl = await findImage(name);
-            handleCardChange(cardIdx, "image", secureUrl);
-          }}
+          onImageSelect={(image) => handleCardChange(cardIdx, "image", image)}
         />
         <Input
           type="text"
