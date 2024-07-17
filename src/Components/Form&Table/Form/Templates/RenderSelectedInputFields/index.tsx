@@ -18,6 +18,8 @@ import KeyFeatureListLayout from "../KeyFeatureListLayout";
 import OurProcessLayout from "../OurProcessLayout";
 import ServiceKeyFeaturesLayout from "../ServiceKeyFeaturesLayout";
 import GridLayout from "../GridLayout";
+import CallToAction from "../CallToAction";
+import StickyScrollLayout from "../StickyScrollLayout";
 
 interface RenderSelectedInputFieldsProps {
   selectedComponents: BodyDataItem[];
@@ -99,6 +101,10 @@ const RenderSelectedInputFields: React.FC<RenderSelectedInputFieldsProps> = ({
         return <ServiceKeyFeaturesLayout {...commonProps} />;
       case "GridLayout":
         return <GridLayout {...commonProps} />;
+      case "StickyScrollLayout":
+        return <StickyScrollLayout {...commonProps} />;
+      case "CallToAction":
+        return <CallToAction {...commonProps} />;
       case "FAQ":
         return <FAQComponent {...commonProps} />;
       case "ImagewithDetailedFeatureDescription":

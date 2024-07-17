@@ -62,7 +62,6 @@ export const ImageWithRadioDataList = [
     defaultChecked: false,
     componentName: "StickyScrollLayout",
   },
-
   {
     id: "img-radio-8",
     src: "ImagewithDetailedFeatureDescription",
@@ -74,15 +73,24 @@ export const ImageWithRadioDataList = [
   },
   {
     id: "img-radio-9",
+    src: "ImageWithIconBoxList",
+    label: "Image With Iconbox List",
+    alt: "faq",
+    disabled: false,
+    defaultChecked: false,
+    componentName: "ImageWithIconBoxList",
+  },
+  {
+    id: "img-radio-10",
     src: "CTA",
     label: "CTA",
     alt: "faq",
     disabled: false,
     defaultChecked: false,
-    componentName: "CTA ",
+    componentName: "CallToAction",
   },
   {
-    id: "img-radio-10",
+    id: "img-radio-11",
     src: "FAQ_section",
     label: "FAQ Section",
     alt: "faq",
