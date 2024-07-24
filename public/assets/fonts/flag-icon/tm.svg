@@ -4,7 +4,7 @@
       <path fill-opacity=".67" d="M42.666 0h682.67v512H42.666z"/>
     </clipPath>
   </defs>
-  <g fill-rule="evenodd" clip-path="url(#a)" transform="translate(-40) scale(.9375)">
+  <g fill-rule="evenodd" clipPath="url(#a)" transform="translate(-40) scale(.9375)">
     <path fill="#28ae66" d="M0 0h768v512H0z"/>
     <g stroke-width="1pt" fill="#fff">
       <path d="M263.306 137.494c27.9 13.453 61.12-.064 73.139-18.637 12.323-17.332 13.836-46.437-7.468-73.14 33.07 27.425 40.379 58.513 23.927 84.113-21.944 29.254-70.627 28.407-89.598 7.664z"/>

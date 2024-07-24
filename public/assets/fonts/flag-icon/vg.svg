@@ -20,7 +20,7 @@
       <path fill-opacity=".67" d="M0 0h640v480H0z"/>
     </clipPath>
   </defs>
-  <g clip-path="url(#b)">
+  <g clipPath="url(#b)">
     <path fill="#006" d="M0 0h960v480H0z"/>
     <path fill-rule="evenodd" fill="#006" d="M0 0h350.002v175H0z"/>
     <g stroke-width="1pt">

@@ -20,6 +20,7 @@ import ServiceKeyFeaturesLayout from "../ServiceKeyFeaturesLayout";
 import GridLayout from "../GridLayout";
 import CallToAction from "../CallToAction";
 import StickyScrollLayout from "../StickyScrollLayout";
+import ImageWithIconBoxList from "../ImageWithIconBoxList";
 
 interface RenderSelectedInputFieldsProps {
   selectedComponents: BodyDataItem[];
@@ -109,6 +110,8 @@ const RenderSelectedInputFields: React.FC<RenderSelectedInputFieldsProps> = ({
         return <FAQComponent {...commonProps} />;
       case "ImagewithDetailedFeatureDescription":
         return <ImagewithDetailedFeatureDescription {...commonProps} />;
+      case "ImageWithIconBoxList":
+        return <ImageWithIconBoxList {...commonProps} />;
       default:
         return null;
     }
