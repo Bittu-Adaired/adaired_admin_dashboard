@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import { Button, Input, Label } from "reactstrap";
 import { Trash2 } from "react-feather";
@@ -29,35 +29,31 @@ const StickyScrollLayout = ({
   handleInputChange,
   bodyData,
 }: StickyScrollLayoutProps) => {
-  const [listItems, setListItems] = useState<IlistItems[]>([{ icon: "", title: "", description: "" }]);
-
-  // Synchronize the list items with the existing body data when the component mounts or re-renders.
-  useEffect(() => {
+  const initializeListItems = (bodyData: BodyDataItem[], index: number) => {
     if (bodyData[index]?.body?.listItems) {
-      setListItems(bodyData[index].body.listItems); // Set the initial list items from the existing body data if available.
+      return bodyData[index].body.listItems;
     }
-  }, [bodyData, index]);
+    return [{ icon: "", title: "", description: "" }];
+  };
 
-  // Ensure the listItems state is kept in sync with the bodyData prop
-  useEffect(() => {
-    handleInputChange(component, index, "listItems", listItems);
-  }, [listItems]);
+  const [listItems, setListItems] = useState<IlistItems[]>(
+    initializeListItems(bodyData, index)
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(component, index, e.target.name, e.target.value);
   };
 
   const addListItem = () => {
-    const newListItem = [
-      ...listItems,
-      { icon: "", title: "", description: "" },
-    ];
+    const newListItem = [...listItems, { icon: "", title: "", description: "" }];
     setListItems(newListItem);
+    handleInputChange(component, index, "listItems", newListItem);
   };
 
   const removeListItem = (itemIndex: number) => {
     const newListItems = listItems.filter((_, idx) => idx !== itemIndex);
     setListItems(newListItems);
+    handleInputChange(component, index, "listItems", newListItems);
   };
 
   const handleListItemChange = (
@@ -69,6 +65,7 @@ const StickyScrollLayout = ({
       idx === itemIndex ? { ...item, [field]: value } : item
     );
     setListItems(newListItems);
+    handleInputChange(component, index, "listItems", newListItems);
   };
 
   const renderListItems = () =>

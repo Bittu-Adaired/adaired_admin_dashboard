@@ -29,7 +29,7 @@ const ServiceKeyFeaturesLayout = ({
     if (bodyData[index]?.body?.keyFeatures) {
       setFeatures(bodyData[index].body.keyFeatures);
     }
-  }, [bodyData, index]);
+  }, []);
 
   const addFeature = () => {
     setFeatures([...features, { feature: "", description: "" }]);

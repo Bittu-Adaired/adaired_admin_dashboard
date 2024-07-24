@@ -80,27 +80,31 @@ const GridLayout = ({
   const renderCards = () =>
     cards.map((card, cardIdx) => (
       <div key={cardIdx} className="border p-2 rounded space-y-2">
-        <ImagePreview
-          className="h-24 w-24 rounded-md"
-          src={card.image || "https://via.placeholder.com/150"}
-          alt="Preview"
-        />
-        <ImageSelector
-          onImageSelect={(image) => handleCardChange(cardIdx, "image", image)}
-        />
-        <Input
-          type="text"
-          name="title"
-          value={card.title}
-          onChange={(e) => handleCardChange(cardIdx, "title", e.target.value)}
-          placeholder="Title"
-        />
-        <Editor
-          value={card.description}
-          onBlurEditor={(content) =>
-            handleCardChange(cardIdx, "description", content)
-          }
-        />
+        <div>
+          <ImagePreview
+            className="h-24 w-24 rounded-md"
+            src={card.image || "https://via.placeholder.com/150"}
+            alt="Preview"
+          />
+        </div>
+        <div>
+          <ImageSelector
+            onImageSelect={(image) => handleCardChange(cardIdx, "image", image)}
+          />
+          <Input
+            type="text"
+            name="title"
+            value={card.title}
+            onChange={(e) => handleCardChange(cardIdx, "title", e.target.value)}
+            placeholder="Title"
+          />
+          <Editor
+            value={card.description}
+            onBlurEditor={(content) =>
+              handleCardChange(cardIdx, "description", content)
+            }
+          />
+        </div>
       </div>
     ));
 
@@ -116,11 +120,6 @@ const GridLayout = ({
         />
       </div>
       <div>
-        {/* <Editor
-          value={bodyData[index]?.body?.description ?? ""}
-          onBlurEditor={(content) => onBlurEditor(content)}
-        /> */}
-
         <Input
           type="textarea"
           name="description"

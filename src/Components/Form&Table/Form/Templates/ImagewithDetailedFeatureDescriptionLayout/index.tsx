@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Input, Label } from "reactstrap";
 import Editor from "@/Components/Form&Table/Form/Inputs/TextEditor";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import ButtonComp from "../../Inputs/Button";
 import ImageSelector from "../../Inputs/ImageSelector";
 
-interface ImagewithDetailedFeatureDescription {
+interface ImagewithDetailedFeatureDescriptionProps {
   component: string;
   index: number;
   handleInputChange: (
@@ -19,9 +19,11 @@ interface ImagewithDetailedFeatureDescription {
 }
 
 const ImagewithDetailedFeatureDescription: React.FC<
-  ImagewithDetailedFeatureDescription
+  ImagewithDetailedFeatureDescriptionProps
 > = ({ component, index, handleInputChange, bodyData }) => {
-  const [layoutState, setLayoutState] = useState(true);
+  const initialLayoutState = bodyData[index]?.body?.layout === "leftImage";
+
+  const [layoutState, setLayoutState] = useState(initialLayoutState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(component, index, e.target.name, e.target.value);
@@ -31,20 +33,17 @@ const ImagewithDetailedFeatureDescription: React.FC<
     handleInputChange(component, index, "description", content);
   };
 
-  useEffect(() => {
+  const changeLayout = () => {
+    const newLayoutState = !layoutState;
+    setLayoutState(newLayoutState);
     handleInputChange(
       component,
       index,
       "layout",
-      layoutState ? "leftImage" : "rightImage"
+      newLayoutState ? "leftImage" : "rightImage"
     );
-  }, [layoutState]);
-
-  const changeLayout = () => {
-    setLayoutState(!layoutState);
   };
 
-  // Extract button data from bodyData
   const buttonData = bodyData[index]?.body?.button ?? {
     buttonStatus: false,
     buttonLink: "",
@@ -77,7 +76,7 @@ const ImagewithDetailedFeatureDescription: React.FC<
             placeholder="Title"
           />
           <Editor
-            value={bodyData[index]?.body?.introDescription ?? ""}
+            value={bodyData[index]?.body?.description ?? ""}
             onBlurEditor={onBlurEditor}
           />
           <div className="flex items-center justify-between">
@@ -85,7 +84,7 @@ const ImagewithDetailedFeatureDescription: React.FC<
               component={component}
               index={index}
               handleInputChange={handleInputChange}
-              value={buttonData}
+              value={bodyData[index]?.body?.button ?? {}}
             />
           </div>
         </div>

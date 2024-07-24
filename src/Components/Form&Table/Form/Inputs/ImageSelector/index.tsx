@@ -18,7 +18,6 @@ import { fetchImages } from "@/Redux/Reducers/ImageFetchSlice";
 import { CustomFileInputsUpload } from "@/Constant";
 import { ImageType } from "@/Redux/Reducers/ImageFetchSlice";
 import { FullScreen, ImagePreview } from "@dropzone-ui/react";
-import { Eye } from "react-feather";
 
 interface ImageSelectorProps {
   imageName?: string;

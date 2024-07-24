@@ -36,7 +36,7 @@ const ImageWithIconBoxList = ({
     if (bodyData[index]?.body?.cards) {
       setCards(bodyData[index].body.cards);
     }
-  }, [bodyData, index]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInputChange(component, index, e.target.name, e.target.value);
