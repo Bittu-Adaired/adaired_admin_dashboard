@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button, Input } from "reactstrap";
-import Editor from "@/Components/Form&Table/Form/Inputs/TextEditor";
+import { Trash2 } from "react-feather";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import ImageSelector from "../../Inputs/ImageSelector";
 import { ImagePreview } from "@dropzone-ui/react";
@@ -68,43 +68,38 @@ const ImageWithIconBoxList = ({
 
   const renderCards = () =>
     cards.map((card, cardIdx) => (
-      <div
-        key={cardIdx}
-        className="border p-2 rounded space-y-2 flex gap-3 items-center"
-      >
-        <div>
-          <ImagePreview
-            className="h-24 w-24 rounded-md"
-            src={card.image || "https://via.placeholder.com/150"}
-            alt="Preview"
+      <div key={cardIdx} className="border p-2 rounded space-y-2 ">
+        <div className="flex justify-end">
+          <Trash2
+            className="text-danger cursor-pointer "
+            size={20}
+            onClick={() => handleRemoveCard(cardIdx)}
           />
         </div>
-        <div className="space-y-2">
-          <ImageSelector
-            onImageSelect={(image) => handleCardChange(cardIdx, "image", image)}
-          />
-          <Input
-            type="text"
-            name="title"
-            value={card.title}
-            onChange={(e) => handleCardChange(cardIdx, "title", e.target.value)}
-            placeholder="Title"
-          />
-          <Input
-            type="textarea"
-            name="description"
-            value={card.description}
-            onChange={(e) =>
-              handleCardChange(cardIdx, "description", e.target.value)
-            }
-            placeholder="Description"
-          />
-        </div>
+        <ImageSelector
+          onImageSelect={(image) => handleCardChange(cardIdx, "image", image)}
+        />
+        <Input
+          type="text"
+          name="title"
+          value={card.title}
+          onChange={(e) => handleCardChange(cardIdx, "title", e.target.value)}
+          placeholder="Title"
+        />
+        <Input
+          type="textarea"
+          name="description"
+          value={card.description}
+          onChange={(e) =>
+            handleCardChange(cardIdx, "description", e.target.value)
+          }
+          placeholder="Description"
+        />
       </div>
     ));
 
   return (
-    <div className="grid grid-cols-2 gap-2 place-items-center">
+    <div className="grid grid-cols-2 gap-2 ">
       <div className="space-y-2">
         <Input
           type="text"
