@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "reactstrap";
+import { Button, Input, Label } from "reactstrap";
 import { Trash2 } from "react-feather";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import ImageSelector from "../../Inputs/ImageSelector";
@@ -29,7 +29,20 @@ const ImageWithIconBoxList = ({
   handleInputChange,
   bodyData,
 }: ImageWithIconBoxListProps) => {
+  const initialLayoutState = bodyData[index]?.body?.layout === "rightImage";
+  const [layoutState, setLayoutState] = useState(initialLayoutState);
   const [cards, setCards] = useState<Icard[]>([]);
+
+  const changeLayout = () => {
+    const newLayoutState = !layoutState;
+    setLayoutState(newLayoutState);
+    handleInputChange(
+      component,
+      index,
+      "layout",
+      newLayoutState ? "leftImage" : "rightImage"
+    );
+  };
 
   useEffect(() => {
     // Initialize cards with existing data from bodyData if it exists
@@ -99,26 +112,50 @@ const ImageWithIconBoxList = ({
     ));
 
   return (
-    <div className="grid grid-cols-2 gap-2 ">
-      <div className="space-y-2">
+    <>
+      <div
+        className={`flex gap-x-4 pt-3 ${
+          !layoutState ? "flex-row-reverse" : ""
+        }`}
+      >
+        <div className="space-y-2 w-1/2">
+          <ImageSelector
+            onImageSelect={(e) => {
+              handleInputChange(component, index, "imgUrl", e);
+            }}
+          />
+          <Input
+            type="color"
+            name="bgColor"
+            value={bodyData[index]?.body?.bgColor ?? ""}
+            onChange={handleChange}
+            placeholder="Background"
+          />
+        </div>
+        <div className="space-y-2 w-1/2">
+          <Input
+            type="text"
+            name="title"
+            value={bodyData[index]?.body?.title ?? ""}
+            onChange={handleChange}
+            placeholder="Title"
+          />
+          <div className="space-y-2">{renderCards()}</div>
+          <Button onClick={handleAddCard}>Add Card</Button>
+        </div>
+      </div>
+      <div className="form-check form-switch pt-3">
         <Input
-          type="text"
-          name="title"
-          value={bodyData[index]?.body?.title ?? ""}
-          onChange={handleChange}
-          placeholder="Title"
+          id="flexSwitchCheckDefault"
+          type="switch"
+          role="switch"
+          onClick={changeLayout}
         />
-        <div className="space-y-2">{renderCards()}</div>
-        <Button onClick={handleAddCard}>Add Card</Button>
+        <Label htmlFor="flexSwitchCheckDefault" check>
+          Switch Layout
+        </Label>
       </div>
-      <div>
-        <ImageSelector
-          onImageSelect={(e) => {
-            handleInputChange(component, index, "imgUrl", e);
-          }}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 
