@@ -1,11 +1,13 @@
 import SVG from "@/CommonComponent/SVG";
-import { Page } from "@/Data/Application/Page";
+import { sidePanel } from "@/Data/Application/Post/SidePanel";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { setNavId } from "@/Redux/Reducers/AddServiceSlice";
+import { setNavId } from "@/Redux/Reducers/AddPostSlice";
 import { Col, Nav, NavItem, NavLink } from "reactstrap";
-const PageLeftSidebar = () => {
-  const { navId } = useAppSelector((state) => state.addService);
+
+const PostLeftSidebar = () => {
+  const { navId } = useAppSelector((state) => state.addPost);
   const dispatch = useAppDispatch();
+
   return (
     <Col
       xxl="3"
@@ -13,7 +15,7 @@ const PageLeftSidebar = () => {
       className="box-col-4e sidebar-left-wrapper mb-2 add-product-tab"
     >
       <Nav pills className="sidebar-left-icons border-0" tabs>
-        {Page.map((data, i) => (
+        {sidePanel.map((data, i) => (
           <NavItem key={i}>
             <NavLink
               className="border-0"
@@ -37,4 +39,4 @@ const PageLeftSidebar = () => {
   );
 };
 
-export default PageLeftSidebar;
+export default PostLeftSidebar;

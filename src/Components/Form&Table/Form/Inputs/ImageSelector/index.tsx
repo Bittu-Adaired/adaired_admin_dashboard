@@ -1,23 +1,11 @@
-"use client";
 import CommonModal from "@/Components/UiKits/Modal/Common/CommonModal";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  Col,
-  Input,
-  InputGroup,
-  InputGroupText,
-  Label,
-  Row,
-} from "reactstrap";
-import { RootState } from "@/Redux/Store";
-import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { fetchImages } from "@/Redux/Reducers/ImageFetchSlice";
-import { CustomFileInputsUpload } from "@/Constant";
-import { ImageType } from "@/Redux/Reducers/ImageFetchSlice";
-import { FullScreen, ImagePreview } from "@dropzone-ui/react";
+import { useState } from "react";
+import { FilePond, registerPlugin } from "react-filepond";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import SelectorTab from "./SelectorTab";
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface ImageSelectorProps {
   imageName?: string;
@@ -28,122 +16,70 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   imageName,
   onImageSelect,
 }) => {
-  const dispatch = useAppDispatch();
-  const { images, isLoading } = useAppSelector(
-    ({ imageFetch }: RootState) => imageFetch
-  );
-  const [value, setValue] = useState("");
   const [extraLargeScreen, setExtraLargeScreen] = useState(false);
-  const [preview, setPreview] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchImages());
-  }, [dispatch]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const extraLargeScreenToggle = () => setExtraLargeScreen(!extraLargeScreen);
 
   const handleImageSelect = (secure_url: string) => {
-    setValue(secure_url);
     onImageSelect(secure_url);
     extraLargeScreenToggle();
-  };
 
-  const handlePreview = () => {
-    setPreview(!preview);
+    // Convert URL to File and set it in FilePond
+    fetch(secure_url)
+      .then((response) => response.blob())
+      .then((blob) => {
+ 
+        const file = new File([blob], "Selected Image", {
+          type: blob.type,
+        });
+        setFiles([file]); // Update FilePond with the selected file
+        console.log(file);
+      });
   };
 
   return (
     <>
-      <div>
-        <InputGroup className="flex">
-          <InputGroupText htmlFor="inputGroupFile01">
-            {CustomFileInputsUpload}
-          </InputGroupText>
-          <Input
-            type="text"
-            value={imageName || value}
-            onClick={extraLargeScreenToggle}
-            readOnly
-            placeholder="Select Image"
-          />
-          <FullScreen open={preview} onClose={handlePreview}>
-            <ImagePreview src={value} className="h-50 w-50" />
-          </FullScreen>
-          <div
-            onClick={handlePreview}
-            className="flex items-center p-2 border cursor-pointer"
-          >
-            <i className="fa fa-file-photo-o "> Preview</i>
-          </div>
-        </InputGroup>
+      <div
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent event from bubbling up
+          extraLargeScreenToggle(); // Toggle the modal
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <FilePond
+          disabled={
+            files.length > 0 ? false : true // Disable FilePond if an image is already selected
+          }
+          onremovefile={(fileItem) => {
+            // Remove the selected image from FilePond
+            setFiles([]);
+            // setValue(""); // Reset the image name
+          }}
+          files={files}
+          allowReorder={false}
+          allowMultiple={false}
+          maxFiles={1}
+          onupdatefiles={(fileItems) => {
+            // Only update state if there is a change in files
+            const updatedFiles = fileItems.map(
+              (fileItem) => fileItem.file as File
+            );
+            if (updatedFiles.length > 0 && !files.length) {
+              setFiles(updatedFiles); // Update only if files are empty
+            }
+          }}
+          labelIdle='Select image from <span class="filepond--label-action text-danger text-decoration-none">Media list</span> or <span class="filepond--label-action text-danger text-decoration-none">Upload</span> a new file'
+        />
       </div>
 
       <CommonModal
         size="xl"
         isOpen={extraLargeScreen}
         toggle={extraLargeScreenToggle}
-        sizeTitle="Select Image"
+        sizeTitle="Image Selector"
       >
-        <Col sm="12">
-          <Card>
-            <CardBody>
-              <div className="main-img-checkbox">
-                <Row className="g-3">
-                  {isLoading ? (
-                    <Col sm="12" className="text-center">
-                      <div className="error-heading">
-                        <h2 className="font-danger">Loading Images ....</h2>
-                      </div>
-                    </Col>
-                  ) : images && images.length > 0 ? (
-                    images.map((image: ImageType, index: number) => (
-                      <Col key={index} xxl="3" sm="6">
-                        <div className="card-wrapper border rounded-3 checkbox-checked">
-                          <div className="img-checkbox">
-                            <Input
-                              className="main-img-cover"
-                              id={image.filename}
-                              type="radio"
-                              name="radio6"
-                              placeholder={image.filename}
-                              defaultChecked={false}
-                              disabled={false}
-                              onChange={() =>
-                                handleImageSelect(image.secure_url)
-                              }
-                            />
-                            <Label
-                              className="mb-0"
-                              htmlFor={image.filename}
-                              check
-                            >
-                              <Image
-                                src={image.secure_url}
-                                alt={image.filename}
-                                width={500}
-                                height={500}
-                              />
-                            </Label>
-                          </div>
-                        </div>
-                      </Col>
-                    ))
-                  ) : (
-                    <Col sm="12" className="text-center">
-                      <div className="error-heading">
-                        <h2 className="font-danger">No Images Found</h2>
-                      </div>
-                      <p className="sub-content">
-                        You have not uploaded any images yet. Click the button
-                        above to upload images.
-                      </p>
-                    </Col>
-                  )}
-                </Row>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
+        <SelectorTab onImageSelect={handleImageSelect} />
       </CommonModal>
     </>
   );

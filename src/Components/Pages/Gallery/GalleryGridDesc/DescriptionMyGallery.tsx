@@ -72,7 +72,7 @@ export const DescriptionMyGallery = () => {
                       <h4>{item.filename}</h4>
                       <Button
                         className="btn-pill btn-air-danger btn btn-danger"
-                        onClick={() => handleDelete(item.filename)}
+                        onClick={() => handleDelete(item.public_id)}
                         type="button"
                       >
                         <i className="fa fa-trash-o"></i>

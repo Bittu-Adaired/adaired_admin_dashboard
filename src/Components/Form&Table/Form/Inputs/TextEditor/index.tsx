@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 
 // Dynamically import JoditEditor with ssr: false
 const JoditEditor = dynamic(() => import("jodit-pro-react"), {
-  ssr: true,
+  ssr: false,
   loading: () => <p>Loading ...</p>,
 });
 
@@ -34,7 +34,6 @@ const Editor = ({
     (newContent: string) => {
       setContent(newContent);
       onBlurEditor(newContent);
-      console.log(newContent);
     },
     [onBlurEditor]
   );

@@ -36,12 +36,14 @@ export const fetchImages = createAsyncThunk("images/fetchImages", async () => {
 
 export const deleteImage = createAsyncThunk(
   "images/deleteImage",
-  async (fileName: string) => {
-    await axios.delete(`http://localhost:5173/api/v2/multer/deleteFile`, {
-      data: { fileName },
-      withCredentials: true,
-    });
-    return fileName;
+  async (public_id: string) => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/multer/deleteFile/${public_id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return public_id;
   }
 );
 

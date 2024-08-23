@@ -1,45 +1,60 @@
-"use client";
+"use client"
 import { SearchTableButton } from "@/Constant";
+import axios from "axios";
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import DataTable from "react-data-table-component";
 import { Card, CardBody, Col, Container, Input, Label, Row } from "reactstrap";
-import { ServiceFormTypes } from "@/Types/ServiceType";
-import ActionDataSource from "@/Components/Form&Table/Table/CommonComponent/ActionDataSource";
-import axios from "axios";
 import CustomBadge from "@/Components/Form&Table/Table/CommonComponent/CustomBadge";
+import ActionDataSource from "@/Components/Form&Table/Table/CommonComponent/ActionDataSource";
 
-const ProductListContainer = () => {
-  const [services, setServices] = useState<ServiceFormTypes[]>([]);
+export type postType = {
+  _id: string;
+  metaTitle: string;
+  metaDescription: string;
+  canonicalLink: string;
+  openGraphImage?: string;
+  robotsText?: string;
+  category: string;
+  featuredImage: string;
+  postTitle: string;
+  postDescription: string;
+  slug: string;
+  tags: string;
+  status: string;
+};
+
+const PostListContainer = () => {
+  const [posts, setPosts] = useState<postType[]>([]);
   const [filterText, setFilterText] = useState("");
 
   const filteredItems = useMemo(() => {
-    return services.filter((item) =>
+    return posts.filter((item) =>
       Object.values(item).some(
         (value) =>
           typeof value === "string" &&
           value.toLowerCase().includes(filterText.toLowerCase())
       )
     );
-  }, [services, filterText]);
+  }, [posts, filterText]);
 
-  const fetchServices = useCallback(async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/readBlog`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      setServices(data);
+      setPosts(data);
     } catch (error) {
-      console.error("Failed to fetch services:", error);
+      console.error("Failed to fetch Posts:", error);
     }
   }, []);
 
   useEffect(() => {
-    fetchServices();
-  }, [fetchServices]);
+    fetchPosts();
+  }, [fetchPosts]);
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
@@ -69,7 +84,7 @@ const ProductListContainer = () => {
         return;
       }
 
-      setServices(services.filter((service) => service._id !== id));
+      setPosts(posts.filter((post) => post._id !== id));
     } catch (error) {
       console.error("Failed to delete item:", error);
     }
@@ -79,25 +94,25 @@ const ProductListContainer = () => {
     () => [
       {
         name: "S. No.",
-        selector: (row: ServiceFormTypes) => services.indexOf(row) + 1,
+        selector: (row: postType) => posts.indexOf(row) + 1,
         sortable: true,
       },
       {
-        name: "Service Name",
-        selector: (row: ServiceFormTypes) => row.serviceName,
+        name: "Post Title",
+        selector: (row: postType) => row.postTitle,
         sortable: true,
         grow: 2,
       },
       {
         name: "Slug",
-        selector: (row: ServiceFormTypes) => row.slug,
+        selector: (row: postType) => row.slug,
         sortable: true,
       },
       {
         name: "Status",
-        cell: (row: ServiceFormTypes) => (
+        cell: (row: postType) => (
           <CustomBadge
-            color={`${row.status !== "publish" ? "danger" : "success"}`}
+            color={`${row.status !== "active" ? "success" : "danger"}`}
             text={row.status}
             pill
           />
@@ -106,7 +121,7 @@ const ProductListContainer = () => {
       },
       {
         name: "Action",
-        cell: (row: ServiceFormTypes) => (
+        cell: (row: postType) => (
           <ActionDataSource
             id={row._id}
             slug={row.slug}
@@ -120,7 +135,7 @@ const ProductListContainer = () => {
         sortable: true,
       },
     ],
-    [services]
+    [posts]
   );
 
   return (
@@ -129,25 +144,17 @@ const ProductListContainer = () => {
         <Col sm="12">
           <Card>
             <CardBody>
-              <div className="list-product-header">
-                {/* <ProductListFilterHeader /> */}
-                {/* <CollapseFilterData /> */}
-              </div>
-              <div className="list-product">
-                <div className="table-responsive">
-                  <DataTable
-                    className="theme-scrollbar"
-                    data={filteredItems}
-                    columns={HtmlColumn}
-                    striped
-                    highlightOnHover
-                    pagination
-                    fixedHeader
-                    subHeader
-                    subHeaderComponent={subHeaderComponentMemo}
-                  />
-                </div>
-              </div>
+              <DataTable
+                className="theme-scrollbar"
+                title="Post List"
+                columns={HtmlColumn}
+                data={filteredItems}
+                subHeaderComponent={subHeaderComponentMemo}
+                pagination
+                fixedHeader
+                striped
+                highlightOnHover
+              />
             </CardBody>
           </Card>
         </Col>
@@ -156,4 +163,4 @@ const ProductListContainer = () => {
   );
 };
 
-export default ProductListContainer;
+export default PostListContainer;

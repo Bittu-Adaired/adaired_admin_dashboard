@@ -28,7 +28,7 @@ import {
 } from "@/Constant";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/Redux/Hooks";
-import CommonButton from "../../../../CommonButton";
+import CommonButton from "../../../CommonButton";
 import { Controller, useForm } from "react-hook-form";
 import ComponentSelectButton from "@/Components/ComponentSelectButton";
 import RenderSelectedInputFields from "@/Components/Form&Table/Form/Templates/RenderSelectedInputFields";
@@ -117,7 +117,6 @@ const PageTabContent = () => {
 
   const onSubmit = async (data: any) => {
     const formData = { ...data, bodyData: bodyData };
-    console.log("Form Data:", formData);
     try {
       const request = await axiosInstance.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/createService`,
