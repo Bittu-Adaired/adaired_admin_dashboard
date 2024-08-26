@@ -74,7 +74,7 @@ const PostListContainer = () => {
   const deleteFunction = async (id: string) => {
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/deleteService/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/deleteBlog/${id}`,
         {
           withCredentials: true,
         }
@@ -125,7 +125,7 @@ const PostListContainer = () => {
           <ActionDataSource
             id={row._id}
             slug={row.slug}
-            editUrl={`/services/update_service/`}
+            editUrl={`/blog/update_post`}
             viewUrl=""
             toastMessage="Are you sure, you wanna delete this?"
             toastName="Delete"

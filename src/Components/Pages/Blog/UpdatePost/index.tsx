@@ -1,20 +1,24 @@
 import { PathNameFinder } from "@/Helper/PathNameFinder";
 import React from "react";
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
-import PostBody from "./PostBody/PostBody";
+import PageBody from "./PostBody";
 
-const UpdatePostContainer = () => {
+export interface UpdatePostProps {
+  slug: string;
+}
+
+const UpdatePage = ({ slug }: UpdatePostProps) => {
   const pathName = PathNameFinder();
   return (
     <Container fluid>
       <Row>
-        <Col sm="12">
+        <Col xs="12">
           <Card>
             <CardHeader>
               <h5>{pathName.Last}</h5>
             </CardHeader>
             <CardBody>
-              <PostBody />
+              <PageBody slug={slug} />
             </CardBody>
           </Card>
         </Col>
@@ -23,4 +27,4 @@ const UpdatePostContainer = () => {
   );
 };
 
-export default UpdatePostContainer;
+export default UpdatePage;

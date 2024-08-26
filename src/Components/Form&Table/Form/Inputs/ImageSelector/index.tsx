@@ -1,5 +1,6 @@
+"use client"
 import CommonModal from "@/Components/UiKits/Modal/Common/CommonModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
@@ -9,15 +10,32 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface ImageSelectorProps {
   imageName?: string;
+  imageUrl?: string; // Add imageUrl as a prop
   onImageSelect: (image: string) => void;
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({
   imageName,
+  imageUrl, // Destructure imageUrl
   onImageSelect,
 }) => {
   const [extraLargeScreen, setExtraLargeScreen] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+
+  useEffect(() => {
+    if (imageUrl) {
+      // Convert the imageUrl to a File object and set it in FilePond
+      fetch(imageUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], imageName || "Selected Image", {
+            type: blob.type,
+          });
+          setFiles([file]); // Update FilePond with the selected file
+          console.log(file);
+        });
+    }
+  }, [imageUrl, imageName]);
 
   const extraLargeScreenToggle = () => setExtraLargeScreen(!extraLargeScreen);
 
@@ -29,7 +47,6 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     fetch(secure_url)
       .then((response) => response.blob())
       .then((blob) => {
- 
         const file = new File([blob], "Selected Image", {
           type: blob.type,
         });

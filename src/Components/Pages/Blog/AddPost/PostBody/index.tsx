@@ -1,5 +1,5 @@
 import PostLeftSidebar from "./PostLeftSidebar";
-import PostTabContent from "./PostTabContent/PostTabContent";
+import PostTabContent from "./PostTabContent";
 import { Row } from "reactstrap";
 
 const PageBody = () => {

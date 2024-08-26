@@ -11,13 +11,22 @@ import {
   TabPane,
 } from "reactstrap";
 import { z } from "zod";
-import { FC, useEffect } from "react";
-import CommonButton from "../CommonButton";
+import React, { FC, useEffect, useState, useCallback } from "react";
+import CommonButton from "../../../CommonButton";
 import { useAppSelector } from "@/Redux/Hooks";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Editor from "@/Components/Form&Table/Form/Inputs/TextEditor";
-import ImageSelector from "@/Components/Form&Table/Form/Inputs/ImageSelector";
+import dynamic from "next/dynamic";
+import axiosInstance from "@/Config/axiosConfig";
+import { BlogCategoryTypes } from "@/Types/BlogCategoryType";
+
+// Dynamically import components
+const Editor = dynamic(
+  () => import("@/Components/Form&Table/Form/Inputs/TextEditor")
+);
+const ImageSelector = dynamic(
+  () => import("@/Components/Form&Table/Form/Inputs/ImageSelector")
+);
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -52,18 +61,19 @@ const schema = z.object({
     message: "Slug is required",
   }),
   tags: z.string(),
-  status: z.enum(["active", "inactive"]),
+  status: z.enum(["publish", "draft"]),
 });
 
-export const PostTabContent: FC = () => {
+const PostTabContent: FC = () => {
   const { navId } = useAppSelector((state) => state.addPost);
+  const [categories, setCategories] = useState<BlogCategoryTypes[]>([]);
 
   const {
     handleSubmit,
     control,
     setValue,
     formState: { errors },
-    reset, // Include reset to set default values
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -78,26 +88,40 @@ export const PostTabContent: FC = () => {
       postDescription: "",
       slug: "",
       tags: "",
-      status: false,
+      status: "",
     },
   });
 
   useEffect(() => {
-    // Example of setting default values dynamically (if needed)
-    // You can fetch initial data from an API or Redux store and then call reset()
-    // reset({
-    //   metaTitle: 'Initial Meta Title',
-    //   // Other fields
-    // });
-  }, [reset]);
+    const fetchCategories = async () => {
+      try {
+        const result = await axiosInstance.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/blog/category/readCategories`
+        );
+        setCategories(result.data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+    fetchCategories();
+  }, []);
 
-  const submitForm = () => {
+  const onSubmit = useCallback(async (data: any) => {
+    try {
+      const request = await axiosInstance.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/createBlog`,
+        data
+      );
+      console.log("Request", request);
+    } catch (error) {
+      console.error("Error", error);
+    }
+  }, []);
+
+  const submitForm = useCallback(() => {
     handleSubmit(onSubmit)();
-  };
+  }, [handleSubmit, onSubmit]);
 
   return (
     <>
@@ -117,8 +141,11 @@ export const PostTabContent: FC = () => {
                       className={errors.postTitle ? "is-invalid" : ""}
                     >
                       <option value="">Select Category</option>
-                      <option value={"Category 1"}>One</option>
-                      <option value={"Category 2"}>Two</option>
+                      {categories.map((category) => (
+                        <option key={category._id} value={category._id}>
+                          {category.categoryName}
+                        </option>
+                      ))}
                     </Input>
                   )}
                 />
@@ -204,8 +231,8 @@ export const PostTabContent: FC = () => {
                       {...field}
                       className={errors.status ? "is-invalid" : ""}
                     >
-                      <option value="inactive">Inactive</option>
-                      <option value="active">Active</option>
+                      <option value="draft">Draft</option>
+                      <option value="publish">Publish</option>
                     </Input>
                   )}
                 />
@@ -313,5 +340,6 @@ export const PostTabContent: FC = () => {
       <CommonButton submitForm={submitForm} />
     </>
   );
-}
+};
 
+export default React.memo(PostTabContent);
