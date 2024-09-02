@@ -57,20 +57,27 @@ export const UserForm = () => {
   });
 
   const formSubmitHandle = async (data: LoginSubmitProp) => {
-    console.log(data);
     try {
       const login = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
         data,
         { withCredentials: true } // Ensure credentials are sent
       );
-      console.log(login.status);
-      if (login.status === 200) {
-        // Redirect or handle success
-        router.push("/dashboard");
-      } else {
-        alert("Please Enter Valid Email Or Password");
-      }
+      console.log("Login successful:", login); // Log to ensure successful login
+      router.push("/dashboard");
+      console.log(Cookies.get("ad_access"));
+
+      // if (login.status === 200) {
+      //   const validUser = await isUserValid(); // Check if user is valid
+      //   if (validUser) {
+      //     console.log(`User ${validUser ? 'valid' : 'invalid'}`);
+      //     router.push("/dashboard");
+      //   } else {
+      //     toast.error("User validation failed.");
+      //   }
+      // } else {
+      //   toast.error("Please Enter Valid Email Or Password");
+      // }
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -84,7 +91,6 @@ export const UserForm = () => {
           withCredentials: true,
         }
       );
-      console.log(status.data);
       return status.status === 200 ? true : false;
     } catch (error) {
       console.error("Error checking user validity:", error);
