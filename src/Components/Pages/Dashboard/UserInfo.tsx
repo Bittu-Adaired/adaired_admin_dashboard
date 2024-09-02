@@ -18,11 +18,10 @@ const UserInfo = () => {
 
   // Fetch user data from the API and update the state with the response data
   const fetchUser = async () => {
+
     try {
-      const data = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refetch`
-      );
-      setUserData(data.data[0]);
+      const response = await axiosInstance.get<UserType[]>('/auth/refetch');
+      setUserData(response.data[0]);
     } catch (error) {
       console.error("Error checking user validity:", error);
       return false;
