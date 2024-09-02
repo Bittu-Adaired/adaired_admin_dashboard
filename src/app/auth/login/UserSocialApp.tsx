@@ -1,3 +1,4 @@
+"use client";
 import { FacebookIcon, LinkedInIcon, TwitterIcon } from "@/Constant";
 import React from "react";
 import { Facebook, Linkedin, Twitter } from "react-feather";

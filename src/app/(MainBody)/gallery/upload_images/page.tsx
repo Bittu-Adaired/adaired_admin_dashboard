@@ -1,3 +1,4 @@
+"use client";
 import GalleryImageUploadContainer from "@/Components/Pages/Gallery/GalleryImageUpload";
 import React from "react";
 

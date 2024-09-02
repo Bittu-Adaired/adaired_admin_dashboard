@@ -1,3 +1,4 @@
+"use client";
 import PostList from "@/Components/Pages/Blog/PostList";
 import React from "react";
 

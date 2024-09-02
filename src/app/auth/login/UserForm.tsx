@@ -1,3 +1,4 @@
+"use client";
 import {
   CreateAccount,
   DontHaveAccount,
@@ -62,6 +63,8 @@ export const UserForm = () => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
         data
       );
+
+      console.log(login.status);
       if (login.status === 200) {
         Cookies.set("ad_access", login.data.ad_access);
         // if (Cookies.get("ad_access")) {
@@ -87,7 +90,7 @@ export const UserForm = () => {
           withCredentials: true,
         }
       );
-      console.log(status.data)
+      console.log(status.data);
       return status.status === 200 ? true : false;
     } catch (error) {
       console.error("Error checking user validity:", error);
