@@ -64,12 +64,12 @@ export const UserForm = () => {
       );
       if (login.status === 200) {
         Cookies.set("ad_access", login.data.ad_access);
-        if (Cookies.get("ad_access")) {
-          const isValidUser = await isUserValid();
-          if (isValidUser) {
-            router.push("/dashboard");
-          }
-        }
+        // if (Cookies.get("ad_access")) {
+        //   const isValidUser = await isUserValid();
+        //   if (isValidUser) {
+        //   }
+        // }
+        router.push("/dashboard");
         toast.success("login successful");
       } else {
         alert("Please Enter Valid Email Or Password");
