@@ -147,7 +147,7 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
     } catch (error) {
       console.error("Error", error);
     }
-  }, []);
+  }, [blogId]);
 
   const submitForm = useCallback(() => {
     handleSubmit(onSubmit)();

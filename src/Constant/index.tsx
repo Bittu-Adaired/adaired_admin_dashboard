@@ -1539,7 +1539,7 @@ export const JavascriptSourcedDataHeading: string = "Javascript sourced data";
 export const ServerSideProcessingHeading: string = "Server-side processing";
 
 // Dashboard
-export const GoodDayLenaMiller: string = "Good day, Lena Miller";
+export const GoodDay: string = "Good day, ";
 export const GoPremium: string = "Go Premium";
 export const OpeningOfLeaflet: string = "Opening of leaflets";
 export const CustomerTransactions: string = "Customer Transaction";

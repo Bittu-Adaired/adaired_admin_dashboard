@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { SearchTableButton } from "@/Constant";
 import axios from "axios";
 import React, { useEffect, useMemo, useState, useCallback } from "react";
@@ -26,6 +26,7 @@ export type postType = {
 const PostListContainer = () => {
   const [posts, setPosts] = useState<postType[]>([]);
   const [filterText, setFilterText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredItems = useMemo(() => {
     return posts.filter((item) =>
@@ -38,6 +39,7 @@ const PostListContainer = () => {
   }, [posts, filterText]);
 
   const fetchPosts = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/blog/readBlog`
@@ -49,6 +51,8 @@ const PostListContainer = () => {
       setPosts(data);
     } catch (error) {
       console.error("Failed to fetch Posts:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -96,6 +100,7 @@ const PostListContainer = () => {
         name: "S. No.",
         selector: (row: postType) => posts.indexOf(row) + 1,
         sortable: true,
+        grow: 0.2,
       },
       {
         name: "Post Title",
@@ -118,6 +123,7 @@ const PostListContainer = () => {
           />
         ),
         sortable: true,
+        grow: 0.2,
       },
       {
         name: "Action",
@@ -126,7 +132,7 @@ const PostListContainer = () => {
             id={row._id}
             slug={row.slug}
             editUrl={`/blog/update_post`}
-            viewUrl=""
+            viewUrl={`${process.env.NEXT_PUBLIC_WEB_URI}/blog/${row.slug}`}
             toastMessage="Are you sure, you wanna delete this?"
             toastName="Delete"
             handleConfirmDelete={deleteFunction}
@@ -146,14 +152,16 @@ const PostListContainer = () => {
             <CardBody>
               <DataTable
                 className="theme-scrollbar"
-                title="Post List"
-                columns={HtmlColumn}
                 data={filteredItems}
-                subHeaderComponent={subHeaderComponentMemo}
-                pagination
-                fixedHeader
+                columns={HtmlColumn}
                 striped
                 highlightOnHover
+                pagination
+                fixedHeader
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                pointerOnHover
+                progressPending={isLoading}
               />
             </CardBody>
           </Card>

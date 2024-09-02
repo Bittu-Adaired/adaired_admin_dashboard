@@ -49,7 +49,7 @@ const ActionDataSource = <T extends Identifiable>({
       name: "view",
       icon: <Globe className="txt-primary h-4 w-4 text-black" />,
       tooltip: "View",
-      link: `${viewUrl}/${id}`,
+      link: `${viewUrl}`,
     },
   ];
 

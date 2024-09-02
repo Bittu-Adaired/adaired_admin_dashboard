@@ -1,18 +1,8 @@
-"use client";
-import { FunctionComponent, useEffect, useState } from "react";
+import React from "react";
+import Dashboard from "@/Components/Pages/Dashboard";
 
-const Ecommerce = () => {
-  const [MyAwesomeMap, setClient] = useState<FunctionComponent>();
-  useEffect(() => {
-    (async () => {
-      if (typeof window !== "undefined") {
-        const newClient = (await import("@/Components/General/Dashboard"))
-          .default;
-        setClient(() => newClient);
-      }
-    })();
-  }, []);
-  return MyAwesomeMap ? <MyAwesomeMap /> : "";
+const Home = () => {
+  return <Dashboard />;
 };
 
-export default Ecommerce;
+export default Home;

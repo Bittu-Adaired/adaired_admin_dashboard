@@ -64,9 +64,11 @@ export const UserForm = () => {
       );
       if (login.status === 200) {
         Cookies.set("ad_access", login.data.ad_access);
-        const isValidUser = await isUserValid();
-        if (isValidUser) {
-          router.push("/dashboard");
+        if (Cookies.get("ad_access")) {
+          const isValidUser = await isUserValid();
+          if (isValidUser) {
+            router.push("/dashboard");
+          }
         }
         toast.success("login successful");
       } else {
@@ -85,6 +87,7 @@ export const UserForm = () => {
           withCredentials: true,
         }
       );
+      console.log(status.data)
       return status.status === 200 ? true : false;
     } catch (error) {
       console.error("Error checking user validity:", error);

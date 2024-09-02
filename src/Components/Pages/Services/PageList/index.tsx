@@ -11,6 +11,7 @@ import CustomBadge from "@/Components/Form&Table/Table/CommonComponent/CustomBad
 const ProductListContainer = () => {
   const [services, setServices] = useState<ServiceFormTypes[]>([]);
   const [filterText, setFilterText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredItems = useMemo(() => {
     return services.filter((item) =>
@@ -23,6 +24,7 @@ const ProductListContainer = () => {
   }, [services, filterText]);
 
   const fetchServices = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
@@ -34,6 +36,8 @@ const ProductListContainer = () => {
       setServices(data);
     } catch (error) {
       console.error("Failed to fetch services:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -81,6 +85,7 @@ const ProductListContainer = () => {
         name: "S. No.",
         selector: (row: ServiceFormTypes) => services.indexOf(row) + 1,
         sortable: true,
+        grow: 0.2,
       },
       {
         name: "Service Name",
@@ -103,6 +108,7 @@ const ProductListContainer = () => {
           />
         ),
         sortable: true,
+        grow: 0.2,
       },
       {
         name: "Action",
@@ -111,7 +117,7 @@ const ProductListContainer = () => {
             id={row._id}
             slug={row.slug}
             editUrl={`/services/update_service/`}
-            viewUrl=""
+            viewUrl={`${process.env.NEXT_PUBLIC_WEB_URI}/services/${row.slug}`}
             toastMessage="Are you sure, you wanna delete this?"
             toastName="Delete"
             handleConfirmDelete={deleteFunction}
@@ -145,6 +151,8 @@ const ProductListContainer = () => {
                     fixedHeader
                     subHeader
                     subHeaderComponent={subHeaderComponentMemo}
+                    pointerOnHover
+                    progressPending={isLoading}
                   />
                 </div>
               </div>
