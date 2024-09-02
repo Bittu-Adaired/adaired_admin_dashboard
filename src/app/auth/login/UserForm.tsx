@@ -61,19 +61,13 @@ export const UserForm = () => {
     try {
       const login = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
-        data
+        data,
+        { withCredentials: true } // Ensure credentials are sent
       );
-
       console.log(login.status);
       if (login.status === 200) {
-        Cookies.set("ad_access", login.data.ad_access);
-        // if (Cookies.get("ad_access")) {
-        //   const isValidUser = await isUserValid();
-        //   if (isValidUser) {
-        //   }
-        // }
+        // Redirect or handle success
         router.push("/dashboard");
-        toast.success("login successful");
       } else {
         alert("Please Enter Valid Email Or Password");
       }
