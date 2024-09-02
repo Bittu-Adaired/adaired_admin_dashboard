@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { ImagePath } from "@/Constant";
 import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";

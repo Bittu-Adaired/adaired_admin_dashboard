@@ -1,3 +1,4 @@
+"use client";
 import PageLeftSidebar from "./PageLeftSidebar";
 import PageTabContent from "./PageTabContent";
 import { Row } from "reactstrap";

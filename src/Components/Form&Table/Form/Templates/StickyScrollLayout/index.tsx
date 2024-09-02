@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import { Button, Input, Label } from "reactstrap";

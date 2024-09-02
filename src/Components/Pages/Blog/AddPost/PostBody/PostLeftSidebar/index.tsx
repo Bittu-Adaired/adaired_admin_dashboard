@@ -1,3 +1,4 @@
+"use client";
 import SVG from "@/CommonComponent/SVG";
 import { sidePanel } from "@/Data/Application/Post/SidePanel";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";

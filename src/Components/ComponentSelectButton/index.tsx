@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Close, FullscreenModal, Save } from "@/Constant";
 import { useState } from "react";

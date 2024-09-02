@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Card, CardBody, Col, Nav, NavItem, NavLink } from "reactstrap";
 import TabsContent from "./TabsContent";

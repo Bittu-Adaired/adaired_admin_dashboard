@@ -1,3 +1,4 @@
+"use client";
 import PostLeftSidebar from "./PostLeftSidebar";
 import PostTabContent from "./PostTabContent";
 import { Row } from "reactstrap";

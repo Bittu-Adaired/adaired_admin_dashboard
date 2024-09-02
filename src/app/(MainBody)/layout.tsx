@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { Header } from "@/Layout/Header/Header";
 import TapTop from "@/Layout/TapTop";
+import NoSsr from "@/utils/NoSsr";
 
 export default function RootLayout({
   children,
@@ -13,17 +14,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Provider store={Store}>
-      <div className={`page-wrapper compact-wrapper`} id="pageWrapper">
-        <Header />
-        <div className="page-body-wrapper">
-          <SideBar />
-          <div className="page-body">{children}</div>
-          <Footer />
+    <NoSsr>
+      <Provider store={Store}>
+        <div className={`page-wrapper compact-wrapper`} id="pageWrapper">
+          <Header />
+          <div className="page-body-wrapper">
+            <SideBar />
+            <div className="page-body">{children}</div>
+            <Footer />
+          </div>
         </div>
-      </div>
-      <ToastContainer />
-      <TapTop />
-    </Provider>
+        <ToastContainer />
+        <TapTop />
+      </Provider>
+    </NoSsr>
   );
 }

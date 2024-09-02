@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Container, Row } from "reactstrap";
 import UserInfo from "./UserInfo";

@@ -1,3 +1,4 @@
+"use client";
 import CommonCardHeader from "@/CommonComponent/CommonCardHeader";
 import { GalleryGridWithDescriptions, UploadNewImage } from "@/Constant";
 import Link from "next/link";

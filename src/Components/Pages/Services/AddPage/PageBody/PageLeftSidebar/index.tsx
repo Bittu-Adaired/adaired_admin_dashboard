@@ -1,3 +1,4 @@
+"use client";
 import SVG from "@/CommonComponent/SVG";
 import { Page } from "@/Data/Application/Page";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";

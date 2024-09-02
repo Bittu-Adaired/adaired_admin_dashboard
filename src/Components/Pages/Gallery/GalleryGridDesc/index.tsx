@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Card, CardBody, Col, Container, Row } from "reactstrap";
 import { DescriptionMyGallery } from "./DescriptionMyGallery";

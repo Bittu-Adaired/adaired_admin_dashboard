@@ -1,11 +1,7 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter
-  } from 'reactstrap';
-import { Close, SaveChanges } from '@/Constant';
-import { CommonModalType } from '@/Types/UikitsType';
+"use client";
+import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
+import { Close, SaveChanges } from "@/Constant";
+import { CommonModalType } from "@/Types/UikitsType";
 
 const CommonModal: React.FC<CommonModalType> = ({
   backdrop,

@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     // output: 'export',
+    redirects: () => {
+      return [
+        {
+          source: "/",
+          destination: "/auth/login",
+          permanent: true,
+        },
+      ];
+    },
     images: {
       remotePatterns: [
         {

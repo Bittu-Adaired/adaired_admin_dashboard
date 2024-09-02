@@ -1,3 +1,4 @@
+"use client";
 import { AddProduct } from "@/Constant";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 // import { setFilterToggle } from "@/Redux/Reducers/ProductSlice";

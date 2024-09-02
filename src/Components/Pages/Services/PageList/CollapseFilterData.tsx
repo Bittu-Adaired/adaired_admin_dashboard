@@ -1,3 +1,4 @@
+"use client";
 import { useAppSelector } from "@/Redux/Hooks";
 import React from "react";
 import { Card, CardBody, Col, Collapse, Input, Row } from "reactstrap";
