@@ -37,17 +37,14 @@ const UserInfo = () => {
       <Card className="profile-greeting p-0">
         <CardBody>
           <div className="img-overlay">
-            <h1 className="mt-0">{GoodDay}</h1>
+            <h1 className="mt-0">
+              {GoodDay}
+              {userData?.name}
+            </h1>
             <p>
               Welcome to the Adaired family! We are delighted that you have
               visited our dashboard.
             </p>
-            {/* <Link
-              className="btn"
-              href={`/${i18LangStatus}/dashboard/default_dashboard`}
-            >
-              {GoPremium}
-            </Link> */}
           </div>
         </CardBody>
       </Card>
