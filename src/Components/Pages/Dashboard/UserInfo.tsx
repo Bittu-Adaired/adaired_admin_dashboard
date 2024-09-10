@@ -1,9 +1,9 @@
 "use client";
 import { Card, CardBody, Col } from "reactstrap";
 import { GoodDay } from "@/Constant";
-import axiosInstance from "@/Config/axiosConfig";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 type UserType = {
   _id: string;
@@ -30,40 +30,12 @@ type UserType = {
 };
 
 const UserInfo = () => {
-  const [userData, setUserData] = useState<UserType | null>(null);
+  const user = JSON.parse(Cookies.get("userData") ?? "{}");
 
-  // Fetch user data from the API and update the state with the response data
-  const fetchUser = async () => {
-    try {
-      // const response = await axiosInstance.get<UserType[]>('/auth/refetch');
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refetch`,
-        {
-          withCredentials: true,
-        }
-      );
+  if (!user) {
+    return null; // Return early if user data is not available
+  }
 
-      // Log the request headers, which may include cookies
-      console.log("Request Headers:", response.config.headers);
-
-      // Log the response status and data
-      console.log("Response Status:", response.status);
-      console.log("Response Data:", response.data);
-
-      if (response.data.length > 0) {
-        setUserData(response.data[0]);
-      } else {
-        console.error("No user data found.");
-      }
-    } catch (error) {
-      console.error("Error checking user validity:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-  
   return (
     <Col xl="5" md="6" className="proorder-xl-1 proorder-md-1">
       <Card className="profile-greeting p-0">
@@ -71,7 +43,7 @@ const UserInfo = () => {
           <div className="img-overlay">
             <h1 className="mt-0">
               {GoodDay}
-              {userData?.name}
+              {user?.name}
             </h1>
             <p>
               Welcome to the Adaired family! We are delighted that you have

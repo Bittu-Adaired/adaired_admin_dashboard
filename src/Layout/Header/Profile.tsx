@@ -1,31 +1,24 @@
 "use client";
 import { Href, ImagePath, Logout } from "@/Constant";
 import { UserProfileData } from "@/Data/Layout";
-import { useAppSelector } from "@/Redux/Hooks";
-import axios from "axios";
-import Cookies from "js-cookie";
+import api from "@/Config/axiosConfig";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogOut } from "react-feather";
+import Cookies from "js-cookie";
 
 export const Profile = () => {
   const router = useRouter();
-  // const LogOutUser = () => {
-  //   Cookies.remove("ad_access");
-  //   router.push("/auth/login");
-  // };
 
   const LogOutUser = async () => {
     try {
-      // Make a request to the logout endpoint
-      await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`, {
-        withCredentials: true,
-      });
+      const logout = await api.post("/auth/logout");
+      // Remove the tokens from cookies
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
+      Cookies.remove("userData");
 
-      // Clear cookies on the client side
-      Cookies.remove("ad_access");
-
-      // Redirect to login page
+      // Redirect the user to the login page
       router.push("/auth/login");
     } catch (error) {
       console.error("Error during logout:", error);

@@ -209,7 +209,7 @@ export const MaterialStyleData = [
 ];
 
 const Star = ()=>{
-  return(<i className="ico-color icofont icofont-star"></i>)
+  return(<i className="color icofont icofont-star"></i>)
 }
 
 export const MaterialStyleDataList = [

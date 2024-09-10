@@ -92,12 +92,12 @@ export interface BookmarkedDataType {
   icon: string;
   path: string;
   title: string;
-  color?:string
+  color?: string;
   id?: number;
   bookmarked?: boolean;
 }
 
 export interface BookmarkSliceType {
-  linkItemsArray: BookmarkedDataType[]|[];
+  linkItemsArray: BookmarkedDataType[] | [];
   bookmarkedData: BookmarkedDataType[];
 }

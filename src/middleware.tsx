@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  if (path.split("/")[1] !== "auth" && !request.cookies.has("ad_access")) {
+  if (path.split("/")[1] !== "auth" && !request.cookies.has("refreshToken")) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
-  if (path.split("/")[1] === "auth" && request.cookies.has("ad_access")) {
+  if (path.split("/")[1] === "auth" && request.cookies.has("refreshToken")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
   return NextResponse.next();
