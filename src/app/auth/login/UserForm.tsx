@@ -104,7 +104,10 @@ export const UserForm = () => {
         );
 
         // Redirect to dashboard
-        router.push("/dashboard");
+        if (login.data.refreshToken) {
+          router.push("/dashboard");
+          console.log("Redirecting to dashboard");
+        }
 
         // Show success alert
         setAlert({ message: login.data?.message, type: "success" });
