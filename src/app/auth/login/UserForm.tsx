@@ -96,11 +96,11 @@ export const UserForm = () => {
           sameSite: "None",
         }); // Expires in 7 days
 
-        // Show success alert
-        setAlert({ message: login.data?.message, type: "success" });
-
         // Redirect to dashboard
         router.push("/dashboard");
+
+        // Show success alert
+        setAlert({ message: login.data?.message, type: "success" });
       } catch (error) {
         console.error("Error logging in:", error);
         setAlert({
