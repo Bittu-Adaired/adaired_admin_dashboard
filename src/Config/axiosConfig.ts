@@ -1,14 +1,13 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-  withCredentials: true, // Ensures credentials are sent
 });
 
 // Request interceptor to add the accessToken to the headers
 api.interceptors.request.use(async (config) => {
-  const accessToken = Cookies.get('accessToken');
+  const accessToken = Cookies.get("accessToken");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -22,7 +21,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = Cookies.get('refreshToken');
+      const refreshToken = Cookies.get("refreshToken");
 
       try {
         const { data } = await axios.post(
@@ -31,11 +30,11 @@ api.interceptors.response.use(
           { withCredentials: true }
         );
 
-        Cookies.set('accessToken', data.accessToken); // Set the new accessToken
+        Cookies.set("accessToken", data.accessToken); // Set the new accessToken
         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
         return axios(originalRequest); // Retry the original request
       } catch (err) {
-        console.log('Refresh token expired or invalid. Please login again.');
+        console.log("Refresh token expired or invalid. Please login again.");
         // Redirect to login page or handle logout logic here
       }
     }
