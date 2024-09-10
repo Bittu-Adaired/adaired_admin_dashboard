@@ -71,61 +71,58 @@ export const UserForm = () => {
     resolver: zodResolver(schema),
   });
 
-  const formSubmitHandle = useCallback(
-    async (data: LoginSubmitProp) => {
-      try {
-        const login = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
-          data
-        );
+  const formSubmitHandle = async (data: LoginSubmitProp) => {
+    try {
+      const login = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
+        data
+      );
 
-        // Store user details and tokens
-        Cookies.set("userData", JSON.stringify(login.data.userData), {
-          expires: 7,
-          secure: true,
-          sameSite: "None",
-        });
-        Cookies.set("accessToken", login.data.accessToken, {
-          expires: 1 / 24,
-          secure: true,
-          sameSite: "None",
-        }); // Expires in 1 hour
-        Cookies.set("refreshToken", login.data.refreshToken, {
-          expires: 7,
-          secure: true,
-          sameSite: "None",
-        }); // Expires in 7 days
+      // Store user details and tokens
+      Cookies.set("userData", JSON.stringify(login.data.userData), {
+        expires: 7,
+        secure: true,
+        sameSite: "None",
+      });
+      Cookies.set("accessToken", login.data.accessToken, {
+        expires: 1 / 24,
+        secure: true,
+        sameSite: "None",
+      }); // Expires in 1 hour
+      Cookies.set("refreshToken", login.data.refreshToken, {
+        expires: 7,
+        secure: true,
+        sameSite: "None",
+      }); // Expires in 7 days
 
-        console.log(
-          "access",
-          login.data.accessToken,
-          "refresh",
-          login.data.refreshToken
-        );
+      console.log(
+        "access",
+        login.data.accessToken,
+        "refresh",
+        login.data.refreshToken
+      );
 
-        // Redirect to dashboard
-        if (login.data.refreshToken) {
-          router.push("/dashboard");
-          console.log("Redirecting to dashboard");
-        }
-
-        // Show success alert
-        setAlert({ message: login.data?.message, type: "success" });
-      } catch (error) {
-        console.error("Error logging in:", error);
-        setAlert({
-          message:
-            error.response?.data?.message || "Login failed. Please try again.",
-          type: "error",
-        });
+      // Redirect to dashboard
+      if (login.data.refreshToken) {
+        router.push("/dashboard");
+        console.log("Redirecting to dashboard");
       }
-    },
-    [router]
-  );
 
-  const onDismissAlert = useCallback(() => {
+      // Show success alert
+      setAlert({ message: login.data?.message, type: "success" });
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setAlert({
+        message:
+          error.response?.data?.message || "Login failed. Please try again.",
+        type: "error",
+      });
+    }
+  };
+
+  const onDismissAlert = () => {
     setAlert(null);
-  }, []);
+  };
 
   // Automatically dismiss alert after 3 seconds
   useEffect(() => {
