@@ -96,6 +96,13 @@ export const UserForm = () => {
           sameSite: "None",
         }); // Expires in 7 days
 
+        console.log(
+          "access",
+          login.data.accessToken,
+          "refresh",
+          login.data.refreshToken
+        );
+
         // Redirect to dashboard
         router.push("/dashboard");
 
