@@ -38,7 +38,6 @@ import { v4 as uuidv4 } from "uuid";
 import ImageSelector from "@/Components/Form&Table/Form/Inputs/ImageSelector";
 import { BodyDataItem } from "@/Types/PageBodyDataType";
 import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
-import axiosInstance from "@/Config/axiosConfig";
 import { ServiceFormTypes } from "@/Types/ServiceType";
 import { UpdatePageProps } from "../../index";
 import api from "@/Config/axiosConfig";
@@ -110,7 +109,7 @@ const PageTabContent = ({ slug }: UpdatePageProps) => {
 
   const fetchCurrentService = async () => {
     try {
-      const result = await axiosInstance.get(
+      const result = await api.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices/${slug}`
       );
       setServiceId(result.data._id);
