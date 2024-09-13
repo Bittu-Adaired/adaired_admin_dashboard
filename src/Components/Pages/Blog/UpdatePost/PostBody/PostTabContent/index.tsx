@@ -20,6 +20,7 @@ import dynamic from "next/dynamic";
 import axiosInstance from "@/Config/axiosConfig";
 import { BlogCategoryTypes } from "@/Types/BlogCategoryType";
 import { UpdatePostProps } from "../..";
+import api from "@/Config/axiosConfig";
 
 // Dynamically import components
 const Editor = dynamic(
@@ -139,7 +140,7 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
 
   const onSubmit = useCallback(async (data: any) => {
     try {
-      const request = await axiosInstance.put(
+      const request = await api.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/blog/updateBlog/${blogId}`,
         data
       );

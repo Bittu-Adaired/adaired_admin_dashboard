@@ -7,6 +7,7 @@ import { ServiceFormTypes } from "@/Types/ServiceType";
 import ActionDataSource from "@/Components/Form&Table/Table/CommonComponent/ActionDataSource";
 import axios from "axios";
 import CustomBadge from "@/Components/Form&Table/Table/CommonComponent/CustomBadge";
+import api from "@/Config/axiosConfig";
 
 const ProductListContainer = () => {
   const [services, setServices] = useState<ServiceFormTypes[]>([]);
@@ -26,13 +27,13 @@ const ProductListContainer = () => {
   const fetchServices = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(
+      const response = await api.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
       );
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
+      const data = await response.data;
       setServices(data);
     } catch (error) {
       console.error("Failed to fetch services:", error);

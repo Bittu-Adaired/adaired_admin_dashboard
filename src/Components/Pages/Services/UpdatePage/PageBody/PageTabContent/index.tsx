@@ -41,6 +41,7 @@ import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
 import axiosInstance from "@/Config/axiosConfig";
 import { ServiceFormTypes } from "@/Types/ServiceType";
 import { UpdatePageProps } from "../../index";
+import api from "@/Config/axiosConfig";
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -148,7 +149,7 @@ const PageTabContent = ({ slug }: UpdatePageProps) => {
 
   const fetchAllServices = async () => {
     try {
-      const result = await axiosInstance.get(
+      const result = await api.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
       );
       setServices(result.data);
@@ -166,7 +167,7 @@ const PageTabContent = ({ slug }: UpdatePageProps) => {
     const formData = { ...data, bodyData: bodyData };
     console.log("Form Data:", formData);
     try {
-      const request = await axiosInstance.put(
+      const request = await api.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/service/updateService/${serviceId}   `,
         formData
       );

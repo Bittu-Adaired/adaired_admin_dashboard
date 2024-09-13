@@ -80,17 +80,14 @@ const GridLayout = ({
   const renderCards = () =>
     cards.map((card, cardIdx) => (
       <div key={cardIdx} className="border p-2 rounded space-y-2">
-        <div>
-          <ImagePreview
-            className="h-24 w-24 rounded-md"
-            src={card.image || "https://via.placeholder.com/150"}
-            alt="Preview"
-          />
-        </div>
-        <div>
-          <ImageSelector
-            onImageSelect={(image) => handleCardChange(cardIdx, "image", image)}
-          />
+        <div className="space-y-2">
+             <ImageSelector
+              imageUrl={card.image || ""}
+              onImageSelect={(image) =>
+                handleCardChange(cardIdx, "image", image)
+              }
+            />
+
           <Input
             type="text"
             name="title"

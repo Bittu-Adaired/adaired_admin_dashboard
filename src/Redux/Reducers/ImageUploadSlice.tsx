@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "@/Config/axiosConfig";
 
 interface UploadState {
   isLoading: boolean;
@@ -20,12 +21,9 @@ export const uploadImages = createAsyncThunk(
     files.forEach((file) => {
       formData.append("files", file);
     });
-    const response = await axios.post(
+    const response = await api.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/multer/upload`,
       formData,
-      {
-        withCredentials: true,
-      }
     );
     return response.data;
   }

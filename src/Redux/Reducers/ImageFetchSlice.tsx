@@ -1,3 +1,4 @@
+import api from "@/Config/axiosConfig";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -25,11 +26,8 @@ const initialState: ImageState = {
 };
 
 export const fetchImages = createAsyncThunk("images/fetchImages", async () => {
-  const response = await axios.get(
+  const response = await api.get(
     `${process.env.NEXT_PUBLIC_BASE_URL}/multer/getUploadedMedia`,
-    {
-      withCredentials: true,
-    }
   );
   return response.data.data;
 });
@@ -37,11 +35,8 @@ export const fetchImages = createAsyncThunk("images/fetchImages", async () => {
 export const deleteImage = createAsyncThunk(
   "images/deleteImage",
   async (public_id: string) => {
-    await axios.delete(
+    await api.delete(
       `${process.env.NEXT_PUBLIC_BASE_URL}/multer/deleteFile/${public_id}`,
-      {
-        withCredentials: true,
-      }
     );
     return public_id;
   }

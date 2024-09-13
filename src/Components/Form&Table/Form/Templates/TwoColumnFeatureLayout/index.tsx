@@ -78,10 +78,6 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSectionProps> = ({
     handleInputChange(component, index, editorType, content);
   };
 
-  const onImageSelect = (imgUrl: string) => {
-    handleInputChange(component, index, "imgUrl", imgUrl);
-  };
-
   return (
     <div className="space-y-2">
       <div>
@@ -153,6 +149,7 @@ const TwoColumnFeatureSection: React.FC<TwoColumnFeatureSectionProps> = ({
       </div>
       <div>
         <ImageSelector
+          imageUrl={bodyData[index]?.body?.imgUrl ?? ""}
           onImageSelect={(e) => {
             handleInputChange(component, index, "imgUrl", e);
           }}

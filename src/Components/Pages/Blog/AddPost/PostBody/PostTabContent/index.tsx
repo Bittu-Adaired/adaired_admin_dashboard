@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import axiosInstance from "@/Config/axiosConfig";
 import { BlogCategoryTypes } from "@/Types/BlogCategoryType";
+import api from "@/Config/axiosConfig";
 
 // Dynamically import components
 const Editor = dynamic(
@@ -95,7 +96,7 @@ const PostTabContent: FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const result = await axiosInstance.get(
+        const result = await api.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/blog/category/readCategories`
         );
         setCategories(result.data);
@@ -109,7 +110,7 @@ const PostTabContent: FC = () => {
 
   const onSubmit = useCallback(async (data: any) => {
     try {
-      const request = await axiosInstance.post(
+      const request = await api.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/blog/createBlog`,
         data
       );
