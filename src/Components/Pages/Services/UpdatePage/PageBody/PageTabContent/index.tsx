@@ -41,6 +41,7 @@ import { ImageWithRadioDataList } from "@/Data/Form&Table/Form";
 import { ServiceFormTypes } from "@/Types/ServiceType";
 import { UpdatePageProps } from "../../index";
 import api from "@/Config/axiosConfig";
+import axios from "axios";
 
 const schema = z.object({
   metaTitle: z.string().min(3, {
@@ -167,10 +168,25 @@ const PageTabContent = ({ slug }: UpdatePageProps) => {
     console.log("Form Data:", formData);
     try {
       const request = await api.put(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/updateService/${serviceId}   `,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/service/updateService/${serviceId}`,
         formData
       );
       console.log("Request", request);
+
+      const revalidate = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
+        {
+          slug: `/services/${formData.slug}`,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          timeout: 5000,
+        }
+      );
+
+      console.log("Revalidate:", revalidate);
     } catch (error) {
       console.log("Error", error);
     }

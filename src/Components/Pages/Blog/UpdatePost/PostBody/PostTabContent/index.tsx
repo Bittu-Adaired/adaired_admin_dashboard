@@ -21,6 +21,7 @@ import axiosInstance from "@/Config/axiosConfig";
 import { BlogCategoryTypes } from "@/Types/BlogCategoryType";
 import { UpdatePostProps } from "../..";
 import api from "@/Config/axiosConfig";
+import axios from "axios";
 
 // Dynamically import components
 const Editor = dynamic(
@@ -145,6 +146,20 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
         data
       );
       console.log("Request", request);
+
+      const revalidate = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
+        {
+          slug: `/services/${data.slug}`,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          timeout: 5000,
+        }
+      );
+      
     } catch (error) {
       console.error("Error", error);
     }
