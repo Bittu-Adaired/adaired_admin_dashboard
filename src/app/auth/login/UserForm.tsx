@@ -96,7 +96,7 @@ export const UserForm = () => {
       });
 
       // Redirect to dashboard
-      if (login.data.refreshToken) {
+      if (Cookies.get("accessToken") === login.data.accessToken) {
         router.push("/dashboard");
       }
 
