@@ -590,7 +590,7 @@
 
             a {
               text-decoration: none;
-              text-transform: uppercase;
+              // text-transform: uppercase;
               letter-spacing: 0.3px;
               font-family: $font-outfit, $font-serif;
             }
@@ -864,7 +864,6 @@
             }
 
             &:hover {
-              a {
                 span {
                   color: var(--theme-default);
                   transition: color 0.3s ease;
@@ -879,7 +878,6 @@
                     transition: stroke 0.3s ease;
                   }
                 }
-              }
             }
 
             + li {

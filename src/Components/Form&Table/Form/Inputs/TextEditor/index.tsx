@@ -1,67 +1,3 @@
-// "use client";
-// import React, {
-//   useState,
-//   useRef,
-//   useEffect,
-//   useCallback,
-//   useMemo,
-//   forwardRef
-// } from "react";
-// import dynamic from "next/dynamic";
-
-// const JoditEditor = dynamic(() => import("jodit-react"), {
-//   ssr: false,
-//   loading: () => <p>Loading ...</p>,
-// });
-
-// const Editor = ({
-//   value,
-//   onBlurEditor,
-// }: {
-//   value: string;
-//   onBlurEditor: (content: string) => void;
-// }) => {
-//   const editor = useRef(null);
-//   const [content, setContent] = useState(value);
-
-//   useEffect(() => {
-//     setContent(value);
-//   }, [value]);
-
-//   const handleBlur = useCallback(
-//     (newContent: string) => {
-//       setContent(newContent);
-//       onBlurEditor(newContent);
-//     },
-//     [onBlurEditor]
-//   );
-
-//   const config = useMemo(
-//     () => ({
-//       readonly: false,
-//       uploader: {
-//         url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
-//       },
-//     }),
-//     []
-//   );
-
-//   if (typeof window === "undefined") {
-//     return null;
-//   }
-
-//   return (
-//     <JoditEditor
-//       ref={editor}
-//       value={content}
-//       config={config as any}
-//       onBlur={handleBlur}
-//     />
-//   );
-// };
-
-// export default React.memo(Editor);
-
 "use client";
 import React, {
   useState,
@@ -72,10 +8,11 @@ import React, {
   useImperativeHandle,
 } from "react";
 import dynamic from "next/dynamic";
+import { Input } from "reactstrap";
 
 const JoditEditor = dynamic(() => import("jodit-react"), {
   ssr: false,
-  loading: () => <p>Loading ...</p>,
+  loading: () => <Input type="textarea" aria-rowcount={5}></Input>,
 });
 
 const Editor = forwardRef(

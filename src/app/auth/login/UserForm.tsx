@@ -88,24 +88,16 @@ export const UserForm = () => {
         expires: 1 / 24,
         secure: true,
         sameSite: "None",
-      }); // Expires in 1 hour
+      });
       Cookies.set("refreshToken", login.data.refreshToken, {
-        expires: 7,
+        expires: 1,
         secure: true,
         sameSite: "None",
-      }); // Expires in 7 days
-
-      console.log(
-        "access",
-        login.data.accessToken,
-        "refresh",
-        login.data.refreshToken
-      );
+      });
 
       // Redirect to dashboard
       if (login.data.refreshToken) {
         router.push("/dashboard");
-        console.log("Redirecting to dashboard");
       }
 
       // Show success alert
