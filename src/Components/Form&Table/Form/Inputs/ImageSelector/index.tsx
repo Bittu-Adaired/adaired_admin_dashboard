@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import CommonModal from "@/Components/UiKits/Modal/Common/CommonModal";
 import { useEffect, useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
@@ -10,13 +10,15 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface ImageSelectorProps {
   imageName?: string;
-  imageUrl?: string; // Add imageUrl as a prop
+  imageUrl?: string;
+  className?: string;
   onImageSelect: (image: string) => void;
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({
   imageName,
-  imageUrl, // Destructure imageUrl
+  imageUrl,
+  className = "",
   onImageSelect,
 }) => {
   const [extraLargeScreen, setExtraLargeScreen] = useState(false);
@@ -59,34 +61,30 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     <>
       <div
         onClick={(e) => {
-          e.stopPropagation(); // Prevent event from bubbling up
-          extraLargeScreenToggle(); // Toggle the modal
+          e.stopPropagation();
+          extraLargeScreenToggle();
         }}
         style={{ cursor: "pointer" }}
       >
         <FilePond
-          disabled={
-            files.length > 0 ? false : true // Disable FilePond if an image is already selected
-          }
-          onremovefile={(fileItem) => {
-            // Remove the selected image from FilePond
-            setFiles([]);
-            // setValue(""); // Reset the image name
-          }}
           files={files}
-          allowReorder={false}
-          allowMultiple={false}
-          maxFiles={1}
           onupdatefiles={(fileItems) => {
-            // Only update state if there is a change in files
             const updatedFiles = fileItems.map(
               (fileItem) => fileItem.file as File
             );
             if (updatedFiles.length > 0 && !files.length) {
-              setFiles(updatedFiles); // Update only if files are empty
+              setFiles(updatedFiles);
             }
           }}
-          labelIdle='Select image from <span class="filepond--label-action text-danger text-decoration-none">Media list</span> or <span class="filepond--label-action text-danger text-decoration-none">Upload</span> a new file'
+          allowMultiple={false}
+          maxFiles={1}
+          disabled={files.length > 0 ? false : true}
+          onremovefile={(fileItem) => {
+            setFiles([]);
+          }}
+          allowReorder={false}
+          labelIdle='<span class="filepond--label-action text-danger text-decoration-none">Upload Image</span>'
+          className={className}
         />
       </div>
 

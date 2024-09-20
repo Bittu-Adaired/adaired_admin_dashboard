@@ -1,70 +1,138 @@
+// "use client";
+// import React, {
+//   useState,
+//   useRef,
+//   useEffect,
+//   useCallback,
+//   useMemo,
+//   forwardRef
+// } from "react";
+// import dynamic from "next/dynamic";
+
+// const JoditEditor = dynamic(() => import("jodit-react"), {
+//   ssr: false,
+//   loading: () => <p>Loading ...</p>,
+// });
+
+// const Editor = ({
+//   value,
+//   onBlurEditor,
+// }: {
+//   value: string;
+//   onBlurEditor: (content: string) => void;
+// }) => {
+//   const editor = useRef(null);
+//   const [content, setContent] = useState(value);
+
+//   useEffect(() => {
+//     setContent(value);
+//   }, [value]);
+
+//   const handleBlur = useCallback(
+//     (newContent: string) => {
+//       setContent(newContent);
+//       onBlurEditor(newContent);
+//     },
+//     [onBlurEditor]
+//   );
+
+//   const config = useMemo(
+//     () => ({
+//       readonly: false,
+//       uploader: {
+//         url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
+//       },
+//     }),
+//     []
+//   );
+
+//   if (typeof window === "undefined") {
+//     return null;
+//   }
+
+//   return (
+//     <JoditEditor
+//       ref={editor}
+//       value={content}
+//       config={config as any}
+//       onBlur={handleBlur}
+//     />
+//   );
+// };
+
+// export default React.memo(Editor);
+
 "use client";
 import React, {
   useState,
-  useRef,
   useEffect,
   useCallback,
   useMemo,
+  forwardRef,
+  useImperativeHandle,
 } from "react";
 import dynamic from "next/dynamic";
 
-// Dynamically import JoditEditor with ssr: false
-const JoditEditor = dynamic(() => import("jodit-pro-react"), {
+const JoditEditor = dynamic(() => import("jodit-react"), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
 });
 
-const Editor = ({
-  value,
-  onBlurEditor,
-}: {
-  value: string;
-  onBlurEditor: (content: string) => void;
-}) => {
-  const editor = useRef(null);
-  const [content, setContent] = useState(value);
+const Editor = forwardRef(
+  (
+    {
+      value,
+      onBlurEditor,
+    }: { value: string; onBlurEditor: (content: string) => void },
+    ref
+  ) => {
+    const [content, setContent] = useState(value);
 
-  // Only update content when value prop changes
-  useEffect(() => {
-    setContent(value);
-  }, [value]);
+    useEffect(() => {
+      setContent(value);
+    }, [value]);
 
-  // useCallback to memoize the onBlur handler
-  const handleBlur = useCallback(
-    (newContent: string) => {
-      setContent(newContent);
-      onBlurEditor(newContent);
-    },
-    [onBlurEditor]
-  );
-
-  const config = useMemo(
-    () => ({
-      readonly: false, // all options from https://xdsoft.net/jodit/docs/
-      uploader: {
-        url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
+    const handleBlur = useCallback(
+      (newContent: string) => {
+        setContent(newContent);
+        onBlurEditor(newContent);
       },
-      filebrowser: {
-        height: 580,
-      },
-    }),
-    []
-  );
+      [onBlurEditor]
+    );
 
-  // Conditionally render the editor only on the client side
-  if (typeof window === "undefined") {
-    return null;
+    const config = useMemo(
+      () => ({
+        readonly: false,
+        uploader: {
+          url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
+        },
+        filebrowser: {
+          ajax: {
+            url: "https://xdsoft.net/jodit/finder/",
+          },
+          height: 580,
+        },
+      }),
+      []
+    );
+
+    // Expose the editor instance through ref
+    useImperativeHandle(ref, () => ({
+      getContent: () => content,
+      resetEditor: () => setContent(""),
+    }));
+
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    return (
+      <JoditEditor value={content} config={config as any} onBlur={handleBlur} />
+    );
   }
+);
 
-  return (
-    <JoditEditor
-      ref={editor}
-      value={content}
-      config={config}
-      onBlur={handleBlur} // Use the memoized onBlur handler
-    />
-  );
-};
+// Set display name for better debugging
+Editor.displayName = "Editor";
 
-export default React.memo(Editor); // Memoize the component to prevent unnecessary re-renders
-
+export default React.memo(Editor);
