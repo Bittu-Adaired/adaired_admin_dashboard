@@ -96,9 +96,11 @@ export const UserForm = () => {
       });
 
       // Redirect to dashboard
-      if (Cookies.get("accessToken") === login.data.accessToken) {
-        router.push("/dashboard");
-      }
+      setTimeout(() => {
+        if (Cookies.get("accessToken") === login.data.accessToken) {
+          router.push("/dashboard");
+        }
+      }, 100); 
 
       // Show success alert
       setAlert({ message: login.data?.message, type: "success" });
