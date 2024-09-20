@@ -11,7 +11,7 @@ import {
 } from "@/Constant";
 import { z } from "zod";
 import Link from "next/link";
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import imageOne from "../../../../public/assets/images/logo/ad_logo.png";
 import dynamic from "next/dynamic";
@@ -22,7 +22,7 @@ import { UserSocialApp } from "./UserSocialApp";
 import axios from "axios";
 import Image from "next/image";
 import Cookies from "js-cookie";
-import { useRouter } from 'nextjs-toploader/app';
+import { useRouter } from "nextjs-toploader/app";
 
 // Dynamically load components only when needed (e.g., Alert)
 const Alert = dynamic(() => import("reactstrap").then((mod) => mod.Alert));
@@ -96,20 +96,9 @@ export const UserForm = () => {
       });
 
       // Redirect to dashboard
-
-      // if (Cookies.get("accessToken") === login.data.accessToken) {
-      //   router.push("/dashboard");
-      // }
-
-      // // Show success alert
-      // setAlert({ message: login.data?.message, type: "success" });
-
-      // Redirect to dashboard
       if (login.data.accessToken) {
         setAlert({ message: login.data?.message, type: "success" });
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 2000);
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("Error logging in:", error);
