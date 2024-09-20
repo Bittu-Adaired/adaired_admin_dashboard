@@ -72,6 +72,7 @@ export const UserForm = () => {
   });
 
   const formSubmitHandle = async (data: LoginSubmitProp) => {
+    window.location.reload();
     try {
       const login = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
