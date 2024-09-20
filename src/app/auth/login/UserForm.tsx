@@ -11,7 +11,6 @@ import {
 } from "@/Constant";
 import { z } from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import imageOne from "../../../../public/assets/images/logo/ad_logo.png";
@@ -23,6 +22,7 @@ import { UserSocialApp } from "./UserSocialApp";
 import axios from "axios";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { useRouter } from 'nextjs-toploader/app';
 
 // Dynamically load components only when needed (e.g., Alert)
 const Alert = dynamic(() => import("reactstrap").then((mod) => mod.Alert));
