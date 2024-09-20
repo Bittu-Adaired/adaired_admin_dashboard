@@ -96,14 +96,21 @@ export const UserForm = () => {
       });
 
       // Redirect to dashboard
-      setTimeout(() => {
-        if (Cookies.get("accessToken") === login.data.accessToken) {
-          router.push("/dashboard");
-        }
-      }, 100); 
 
-      // Show success alert
-      setAlert({ message: login.data?.message, type: "success" });
+      // if (Cookies.get("accessToken") === login.data.accessToken) {
+      //   router.push("/dashboard");
+      // }
+
+      // // Show success alert
+      // setAlert({ message: login.data?.message, type: "success" });
+
+      // Redirect to dashboard
+      if (login.data.accessToken) {
+        setAlert({ message: login.data?.message, type: "success" });
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 0);
+      }
     } catch (error) {
       console.error("Error logging in:", error);
       setAlert({
