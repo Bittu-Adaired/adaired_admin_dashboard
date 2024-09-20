@@ -83,16 +83,19 @@ export const UserForm = () => {
         expires: 7,
         secure: true,
         sameSite: "None",
+        path: "/",
       });
       Cookies.set("accessToken", login.data.accessToken, {
         expires: 1 / 24,
         secure: true,
         sameSite: "None",
+        path: "/",
       });
       Cookies.set("refreshToken", login.data.refreshToken, {
         expires: 1,
         secure: true,
         sameSite: "None",
+        path: "/",
       });
 
       // Redirect to dashboard
