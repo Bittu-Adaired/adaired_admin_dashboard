@@ -109,7 +109,7 @@ export const UserForm = () => {
         setAlert({ message: login.data?.message, type: "success" });
         setTimeout(() => {
           router.push("/dashboard");
-        }, 0);
+        }, 2000);
       }
     } catch (error) {
       console.error("Error logging in:", error);
