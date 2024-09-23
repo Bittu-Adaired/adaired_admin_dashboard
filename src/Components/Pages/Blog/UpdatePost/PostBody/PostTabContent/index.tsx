@@ -141,21 +141,32 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
       try {
         await api.put(`/blog/updateBlog/${blogId}`, data);
         router.push(`/blog/blog_list`);
-        const revalidateSlugs = [
+        // const revalidateSlugs = [
+        //   { slug: `/blog` },
+        //   { slug: `/blog/${data.slug}` },
+        // ];
+        // await Promise.all(
+        //   revalidateSlugs.map((slug) =>
+        //     axios.post(
+        //       `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
+        //       slug,
+        //       {
+        //         headers: { "Content-Type": "application/json" },
+        //         timeout: 5000,
+        //       }
+        //     )
+        //   )
+        // );
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
           { slug: `/blog` },
+          { headers: { "Content-Type": "application/json" }, timeout: 5000 }
+        );
+
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
           { slug: `/blog/${data.slug}` },
-        ];
-        await Promise.all(
-          revalidateSlugs.map((slug) =>
-            axios.post(
-              `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
-              slug,
-              {
-                headers: { "Content-Type": "application/json" },
-                timeout: 5000,
-              }
-            )
-          )
+          { headers: { "Content-Type": "application/json" }, timeout: 5000 }
         );
       } catch (error) {
         console.error("Error in onSubmit:", error);
