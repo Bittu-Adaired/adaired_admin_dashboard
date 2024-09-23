@@ -370,13 +370,13 @@ body.dark-only.box-layout {
 @import "layout/box-layout";
 
 /* ---------------------
-	*** Globals *** 
+	*** Globals Starts*** 
 -----------------------*/
 // Accessibility
 // @import "global/accessibility/";
 
 // Backgrounds
-// @import "global/backgrounds/";
+@import "global/backgrounds/backgroundColor";
 
 // Borders
 @import "global/borders/border";

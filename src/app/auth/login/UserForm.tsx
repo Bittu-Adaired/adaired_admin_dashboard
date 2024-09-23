@@ -101,7 +101,7 @@ export const UserForm = () => {
       // Redirect to dashboard
       if (login.data.accessToken) {
         setAlert({ message: login.data?.message, type: "success" });
-        router.push("/dashboard");
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error logging in:", error);

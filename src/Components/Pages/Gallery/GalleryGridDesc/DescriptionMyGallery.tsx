@@ -46,7 +46,7 @@ export const DescriptionMyGallery = () => {
           {images.map((item: ImageType) => (
             <figure
               key={item.asset_id}
-              className="col-xl-3 col-md-4 col-sm-6 m-0"
+              className="col-xl-3 col-md-4 col-sm-6 m-0 "
               itemProp="caption description"
             >
               <Item
@@ -54,11 +54,12 @@ export const DescriptionMyGallery = () => {
                 width="1500"
                 height="850"
                 caption={item.filename}
+                
               >
                 {({ ref, open }) => (
                   <Link href="" passHref>
                     <Image
-                      className="border-bottom-0 p-2 rounded-0 rounded-top-1"
+                      className="border-bottom-0 p-2 rounded-0 rounded-top-1 bg-gray-100"
                       ref={
                         ref as unknown as React.MutableRefObject<HTMLImageElement>
                       }
@@ -68,7 +69,7 @@ export const DescriptionMyGallery = () => {
                       width={300}
                       height={200}
                     />
-                    <div className="caption common-space border-top-0 p-2 pt-0">
+                    <div className="caption common-space border-top-0 p-2 pt-2">
                       <h4>{item.filename}</h4>
                       <Button
                         className="btn-pill btn-air-danger btn btn-danger"
