@@ -75,7 +75,10 @@ export const UserForm = () => {
     try {
       const login = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
-        data
+        data,
+        {
+          withCredentials: true,
+        }
       );
 
       // Store user details and tokens
