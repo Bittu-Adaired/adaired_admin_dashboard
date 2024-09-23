@@ -82,19 +82,19 @@ export const UserForm = () => {
       Cookies.set("userData", JSON.stringify(login.data.userData), {
         expires: 7,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "Lax",
         path: "/",
       });
       Cookies.set("accessToken", login.data.accessToken, {
         expires: 1,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "Lax",
         path: "/",
       });
       Cookies.set("refreshToken", login.data.refreshToken, {
         expires: data.rememberMe ? 30 : 1,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "Lax",
         path: "/",
       });
 
