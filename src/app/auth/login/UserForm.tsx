@@ -53,8 +53,8 @@ export const UserForm = () => {
 
   const defaultValues = useMemo(
     () => ({
-      email: "bittu@gmail.com",
-      password: "Ad@12345",
+      email: "",
+      password: "",
       rememberMe: false,
     }),
     []
