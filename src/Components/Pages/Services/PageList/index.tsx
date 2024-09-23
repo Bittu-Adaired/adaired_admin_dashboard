@@ -27,9 +27,7 @@ const ProductListContainer = () => {
   const fetchServices = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await api.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/getServices`
-      );
+      const response = await api.get(`/service/getServices`);
       if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
@@ -63,12 +61,7 @@ const ProductListContainer = () => {
 
   const deleteFunction = async (id: string) => {
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/service/deleteService/${id}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await api.delete(`/service/deleteService/${id}`);
       if (response.status !== 200) {
         console.error("Failed to delete item:", response.data);
         return;

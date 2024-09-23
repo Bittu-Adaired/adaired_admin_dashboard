@@ -43,9 +43,7 @@ const PostListContainer = () => {
   const fetchPosts = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await api.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/readBlog`
-      );
+      const response = await api.get(`/blog/readBlog`);
       if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
@@ -87,15 +85,17 @@ const PostListContainer = () => {
 
   const deleteFunction = async (id: string) => {
     try {
-      const response = await api.delete(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/deleteBlog/${id}`
-      );
+      const response = await api.delete(`/blog/deleteBlog/${id}`);
       if (response.status !== 200) {
         console.error("Failed to delete item:", response.data);
         return;
       }
-
-      setPosts(posts.filter((post) => post._id !== id));
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
+        { slug: `/blog` },
+        { headers: { "Content-Type": "application/json" }, timeout: 5000 }
+      );
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
     } catch (error) {
       console.error("Failed to delete item:", error);
     }
