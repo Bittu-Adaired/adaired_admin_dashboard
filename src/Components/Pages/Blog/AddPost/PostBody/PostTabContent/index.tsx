@@ -1,5 +1,6 @@
 "use client";
 import {
+  Button,
   Col,
   Form,
   FormGroup,
@@ -17,10 +18,10 @@ import { useAppSelector } from "@/Redux/Hooks";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import axiosInstance from "@/Config/axiosConfig";
 import { BlogCategoryTypes } from "@/Types/BlogCategoryType";
 import api from "@/Config/axiosConfig";
 import axios from "axios";
+import { useRouter } from "nextjs-toploader/app";
 
 // Dynamically import components
 const Editor = dynamic(
@@ -59,16 +60,16 @@ const schema = z.object({
   postDescription: z.string().min(3, {
     message: "Description is required",
   }),
-  slug: z.string().min(3, {
-    message: "Slug is required",
-  }),
-  tags: z.string(),
+  slug: z.string().optional(),
+  tags: z.string().optional(),
   status: z.enum(["publish", "draft"]),
 });
 
 const PostTabContent: FC = () => {
+  const router = useRouter();
   const { navId } = useAppSelector((state) => state.addPost);
   const [categories, setCategories] = useState<BlogCategoryTypes[]>([]);
+  const [open, setOpen] = useState(false);
 
   const {
     handleSubmit,
@@ -97,9 +98,7 @@ const PostTabContent: FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const result = await api.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/blog/category/readCategories`
-        );
+        const result = await api.get(`/blog/category/readCategories`);
         setCategories(result.data);
       } catch (error) {
         console.error("Error fetching categories", error);
@@ -109,31 +108,23 @@ const PostTabContent: FC = () => {
     fetchCategories();
   }, []);
 
-  const onSubmit = useCallback(async (data: any) => {
-    try {
-      const request = await api.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/createBlog`,
-        data
-      );
-      console.log("Request", request);
-
-      const revalidate = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
-        {
-          slug: `/blog`,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          timeout: 5000,
-        }
-      );
-
-    } catch (error) {
-      console.error("Error", error);
-    }
-  }, []);
+  const onSubmit = useCallback(
+    async (data: any) => {
+      try {
+        await api.post(`/blog/createBlog`, data);
+        router.push(`/blog/blog_list`);
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
+          { slug: `/blog` },
+          { headers: { "Content-Type": "application/json" }, timeout: 5000 }
+        );
+      } catch (error) {
+        console.error("Error submitting the form:", error);
+        alert(error.response.data.message);
+      }
+    },
+    [router]
+  );
 
   const submitForm = useCallback(() => {
     handleSubmit(onSubmit)();
@@ -247,6 +238,9 @@ const PostTabContent: FC = () => {
                       {...field}
                       className={errors.status ? "is-invalid" : ""}
                     >
+                      <option value={""} disabled>
+                        Select status
+                      </option>
                       <option value="draft">Draft</option>
                       <option value="publish">Publish</option>
                     </Input>

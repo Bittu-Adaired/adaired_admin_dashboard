@@ -22,12 +22,10 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = Cookies.get("refreshToken");
-
       try {
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh-token`,
-          { refreshToken }, // Sending the refresh token to get a new access token
-          { withCredentials: true }
+          { refreshToken } // Sending the refresh token to get a new access token
         );
 
         Cookies.set("accessToken", data.accessToken); // Set the new accessToken

@@ -40,6 +40,7 @@ const Editor = forwardRef(
     const config = useMemo(
       () => ({
         readonly: false,
+        placeholder: value ? "" : "Start writing",
         uploader: {
           url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
         },

@@ -17,7 +17,6 @@ export const Profile = () => {
   } | null>(null);
 
   const userData = JSON.parse(Cookies.get("userData") || "");
-  console.log(userData);
 
   const LogOutUser = async () => {
     try {

@@ -34,7 +34,6 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
             type: blob.type,
           });
           setFiles([file]); // Update FilePond with the selected file
-          console.log(file);
         });
     }
   }, [imageUrl, imageName]);
@@ -53,7 +52,6 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
           type: blob.type,
         });
         setFiles([file]); // Update FilePond with the selected file
-        console.log(file);
       });
   };
 

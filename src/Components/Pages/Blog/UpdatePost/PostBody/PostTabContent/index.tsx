@@ -11,17 +11,17 @@ import {
   TabPane,
 } from "reactstrap";
 import { z } from "zod";
-import React, { FC, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import CommonButton from "../../../CommonButton";
 import { useAppSelector } from "@/Redux/Hooks";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import axiosInstance from "@/Config/axiosConfig";
 import { BlogCategoryTypes } from "@/Types/BlogCategoryType";
 import { UpdatePostProps } from "../..";
 import api from "@/Config/axiosConfig";
 import axios from "axios";
+import { useRouter } from "nextjs-toploader/app";
 
 // Dynamically import components
 const Editor = dynamic(
@@ -68,6 +68,7 @@ const schema = z.object({
 });
 
 const PostTabContent = ({ slug }: UpdatePostProps) => {
+  const router = useRouter();
   const { navId } = useAppSelector((state) => state.addPost);
   const [categories, setCategories] = useState<BlogCategoryTypes[]>([]);
   const [blogId, setBlogId] = useState("");
@@ -97,11 +98,9 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
 
   const fetchCurrentBlog = useCallback(async () => {
     try {
-      const result = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/readBlog/${slug}`
-      );
+      const result = await api.get(`blog/readBlog/${slug}`);
 
-      console.log(result)
+      console.log(result);
       setBlogId(result.data._id);
 
       reset({
@@ -125,9 +124,7 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
 
   const fetchCategories = async () => {
     try {
-      const result = await axiosInstance.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/category/readCategories`
-      );
+      const result = await api.get(`/blog/category/readCategories`);
       setCategories(result.data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -139,31 +136,33 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
     fetchCurrentBlog();
   }, [fetchCurrentBlog]);
 
-  const onSubmit = useCallback(async (data: any) => {
-    try {
-      const request = await api.put(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/updateBlog/${blogId}`,
-        data
-      );
-      console.log("Request", request);
-
-      const revalidate = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
-        {
-          slug: `/services/${data.slug}`,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          timeout: 5000,
-        }
-      );
-      
-    } catch (error) {
-      console.error("Error", error);
-    }
-  }, [blogId]);
+  const onSubmit = useCallback(
+    async (data: any) => {
+      try {
+        await api.put(`/blog/updateBlog/${blogId}`, data);
+        router.push(`/blog/blog_list`);
+        const revalidateSlugs = [
+          { slug: `/blog` },
+          { slug: `/blog/${data.slug}` },
+        ];
+        await Promise.all(
+          revalidateSlugs.map((slug) =>
+            axios.post(
+              `${process.env.NEXT_PUBLIC_WEB_URI}/api/revalidatePage`,
+              slug,
+              {
+                headers: { "Content-Type": "application/json" },
+                timeout: 5000,
+              }
+            )
+          )
+        );
+      } catch (error) {
+        console.error("Error in onSubmit:", error);
+      }
+    },
+    [blogId, router]
+  );
 
   const submitForm = useCallback(() => {
     handleSubmit(onSubmit)();
@@ -204,7 +203,7 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
                   name="featuredImage"
                   render={({ field }) => (
                     <ImageSelector
-                    imageUrl={field.value || ""}
+                      imageUrl={field.value || ""}
                       onImageSelect={(e) => {
                         setValue("featuredImage", e);
                       }}
@@ -278,6 +277,9 @@ const PostTabContent = ({ slug }: UpdatePostProps) => {
                       {...field}
                       className={errors.status ? "is-invalid" : ""}
                     >
+                      <option value={""} disabled>
+                        Select status
+                      </option>
                       <option value="draft">Draft</option>
                       <option value="publish">Publish</option>
                     </Input>

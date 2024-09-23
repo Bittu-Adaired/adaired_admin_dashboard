@@ -22,6 +22,7 @@ export type postType = {
   slug: string;
   tags: string;
   status: string;
+  createdAt: string;
 };
 
 const PostListContainer = () => {
@@ -49,7 +50,15 @@ const PostListContainer = () => {
         throw new Error("Network response was not ok");
       }
       const data = response.data;
-      setPosts(data);
+
+      // Sort posts by createdAt, newest first
+      const sortedPosts = data.sort((a: postType, b: postType) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+
+      setPosts(sortedPosts);
     } catch (error) {
       console.error("Failed to fetch Posts:", error);
     } finally {
@@ -79,7 +88,7 @@ const PostListContainer = () => {
   const deleteFunction = async (id: string) => {
     try {
       const response = await api.delete(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/deleteBlog/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/deleteBlog/${id}`
       );
       if (response.status !== 200) {
         console.error("Failed to delete item:", response.data);
@@ -115,7 +124,7 @@ const PostListContainer = () => {
         name: "Status",
         cell: (row: postType) => (
           <CustomBadge
-            color={`${row.status !== "active" ? "success" : "danger"}`}
+            color={`${row.status !== "draft" ? "success" : "danger"}`}
             text={row.status}
             pill
           />
