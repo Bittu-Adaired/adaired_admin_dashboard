@@ -20,6 +20,20 @@ export const MenuList: MenuItem[] | undefined = [
     menucontent: "All neccesory pages",
     Items: [
       {
+        path: "/",
+        icon: "sample-page",
+        title: "Home page",
+        type: "link",
+        id: 1,
+      },
+      {
+        path: "/",
+        icon: "sample-page",
+        title: "About page",
+        type: "link",
+        id: 1,
+      },
+      {
         title: "Services",
         icon: "sample-page",
         id: 2,
@@ -27,20 +41,69 @@ export const MenuList: MenuItem[] | undefined = [
         active: false,
         children: [
           { path: "/services/add_service", title: "Add Service", type: "link" },
-          { path: "/services/service_list", title: "Service List", type: "link" },
+          {
+            path: "/services/service_list",
+            title: "Service List",
+            type: "link",
+          },
+        ],
+      },
+      {
+        title: "Case Study",
+        icon: "sample-page",
+        id: 2,
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: "/casestudy/add_casestudy",
+            title: "Add Case Study",
+            type: "link",
+          },
+          {
+            path: "/casestudy/catestudy_list",
+            title: "Case Study List",
+            type: "link",
+          },
+          {
+            path: "/casestudy/add_category",
+            title: "Add Category",
+            type: "link",
+          },
+          {
+            path: "/casestudy/category_list",
+            title: "Category List",
+            type: "link",
+          },
         ],
       },
       {
         title: "Blog",
-        icon: "blog",
+        icon: "sample-page",
         id: 2,
         type: "sub",
         active: false,
         children: [
           { path: "/blog/add_post", title: "Add Blog", type: "link" },
-          { path: "/blog/blog_list", title: "Blog List", type: "link" }
+          { path: "/blog/blog_list", title: "Blog List", type: "link" },
+          {
+            path: "/blog/add_blog_category",
+            title: "Add Category",
+            type: "link",
+          },
+          {
+            path: "/blog/blog_category_list",
+            title: "Category List",
+            type: "link",
+          },
         ],
-
+      },
+      {
+        path: "/",
+        icon: "sample-page",
+        title: "Contact page",
+        type: "link",
+        id: 1,
       },
     ],
   },
@@ -66,6 +129,19 @@ export const MenuList: MenuItem[] | undefined = [
             type: "link",
           },
         ],
+      },
+    ],
+  },
+  {
+    title: "Applications",
+    lanClass: "lan-8",
+    menucontent: "Ready to use Apps",
+    Items: [
+      {
+        path: "/app/file_manager",
+        icon: "file",
+        title: "File Manager",
+        type: "link",
       },
     ],
   },

@@ -1,6 +1,5 @@
 "use client";
 import {
-  Button,
   Col,
   Form,
   FormGroup,
@@ -13,8 +12,9 @@ import {
 } from "reactstrap";
 import { z } from "zod";
 import React, { FC, useEffect, useState, useCallback } from "react";
-import CommonButton from "../../../CommonButton";
-import { useAppSelector } from "@/Redux/Hooks";
+import CommonButton from "@/Components/Pages/CommonButton";
+import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
+import { setNavId } from "@/Redux/Reducers/AddPostSlice";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
@@ -67,6 +67,7 @@ const schema = z.object({
 
 const PostTabContent: FC = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { navId } = useAppSelector((state) => state.addPost);
   const [categories, setCategories] = useState<BlogCategoryTypes[]>([]);
   const [open, setOpen] = useState(false);
@@ -347,7 +348,11 @@ const PostTabContent: FC = () => {
           </TabContent>
         </Form>
       </Col>
-      <CommonButton submitForm={submitForm} />
+      <CommonButton
+        submitForm={submitForm}
+        navId={navId}
+        setNavId={(id) => dispatch(setNavId(id))}
+      />
     </>
   );
 };

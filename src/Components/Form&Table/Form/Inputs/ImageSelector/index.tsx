@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
 import SelectorTab from "./SelectorTab";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -56,7 +61,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   };
 
   return (
-    <>
+    <div>
       <div
         onClick={(e) => {
           e.stopPropagation();
@@ -94,7 +99,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       >
         <SelectorTab onImageSelect={handleImageSelect} />
       </CommonModal>
-    </>
+    </div>
   );
 };
 
